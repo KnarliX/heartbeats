@@ -195,6 +195,23 @@ body {
     gap: 0.8rem;
 }
 
+/* Hide desktop-only playlist button in mobile view */
+.extra-controls .control-btn.desktop-only {
+    display: none !important;
+}
+
+/* Mobile footer does not need the playlist button as per screenshot */
+.playlist-button-container, 
+#playlist-mobile {
+    display: none !important;
+}
+
+/* Make the volume button to toggle playlist in mobile view */
+.mobile-device #volume {
+    cursor: pointer;
+    position: relative;
+}
+
 #volumeSlider {
     width: 100px;
     height: 3px;

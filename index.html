@@ -119,9 +119,11 @@
                     <i class="fas fa-volume-up"></i>
                 </button>
                 <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control" aria-label="Volume Control">
-                <button id="playlist" class="control-btn" title="Show/Hide Playlist" aria-label="Toggle Playlist">
+                <!-- Playlist button is visible only on desktop view -->
+                <button id="playlist" class="control-btn desktop-only" title="Show/Hide Playlist" aria-label="Toggle Playlist">
                     <i class="fas fa-list-ul"></i>
                 </button>
+                <!-- Mobile-only playlist button is removed as per request -->
             </div>
         </div>
         

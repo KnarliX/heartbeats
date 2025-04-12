@@ -123,25 +123,8 @@ class MusicPlayer {
                 document.querySelector('.music-player').appendChild(spaceFiller);
             }
             
-            // Move the playlist button container to bottom if it doesn't exist
-            if (!document.querySelector('.playlist-button-container') && this.playlistBtn) {
-                const container = document.createElement('div');
-                container.className = 'playlist-button-container';
-                container.appendChild(this.playlistBtn.cloneNode(true));
-                document.querySelector('.music-player').appendChild(container);
-                
-                // Update the event listener for the new button
-                document.querySelector('.playlist-button-container .playlist-btn')
-                    .addEventListener('click', () => this.togglePlaylist());
-                
-                // Hide the original button if we created a new one
-                if (this.playlistBtn.parentNode) {
-                    this.playlistBtn.style.display = 'none';
-                }
-                
-                // Update our reference to the playlist button
-                this.playlistBtn = document.querySelector('.playlist-button-container .playlist-btn');
-            }
+            // In mobile view, we'll use the existing volume button to toggle playlist
+            // Remove the extra playlist button in footer as per request
         } else {
             // Desktop layout - player content on left, controls on right
             document.body.classList.remove('mobile-device');
@@ -273,7 +256,16 @@ class MusicPlayer {
         this.nextBtn.addEventListener('click', () => this.nextSong());
         this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
         this.repeatBtn.addEventListener('click', () => this.toggleRepeat());
-        this.volumeBtn.addEventListener('click', () => this.toggleMute());
+        // On mobile, the volume button opens playlist
+        if (this.isMobile) {
+            this.volumeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.togglePlaylist();
+            });
+        } else {
+            // On desktop, volume button controls volume
+            this.volumeBtn.addEventListener('click', () => this.toggleMute());
+        }
         
         // Use input event for continuous updates
         this.volumeSlider.addEventListener('input', () => this.setVolume(this.volumeSlider.value));
