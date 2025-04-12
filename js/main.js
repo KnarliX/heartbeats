@@ -29,8 +29,17 @@ class MusicPlayer {
     init() {
         this.isMobile = window.innerWidth <= 768;
         this.initializeElements();
+        
+        // Apply performance optimizations
+        this.applyPerformanceOptimizations();
+        
+        // Update playlist
         this.updatePlaylist();
+        
+        // Setup event listeners
         this.setupEventListeners();
+        
+        // Load first song
         this.loadSong(this.currentSongIndex);
         
         // Setup media session for background playback
@@ -44,6 +53,69 @@ class MusicPlayer {
             const preloadAudio = new Audio();
             preloadAudio.preload = 'metadata';
             preloadAudio.src = this.songs[nextSongIndex].path;
+        }
+        
+        // Initialize proper layout based on device
+        this.updateLayoutForDevice();
+    }
+    
+    /**
+     * Apply performance optimizations for better mobile experience
+     */
+    applyPerformanceOptimizations() {
+        // Use passive event listeners for better performance
+        const options = { passive: true };
+        
+        // Pre-connect to CDN for faster font loading
+        if (!document.querySelector('link[rel="preconnect"][href="https://cdnjs.cloudflare.com"]')) {
+            const preconnect = document.createElement('link');
+            preconnect.rel = 'preconnect';
+            preconnect.href = 'https://cdnjs.cloudflare.com';
+            document.head.appendChild(preconnect);
+        }
+        
+        // Optimize images
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.decoding = 'async';
+            img.loading = 'eager';
+        });
+        
+        // Add hardware acceleration for smoother animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .album-art, .control-btn, .progress, .wave {
+                transform: translateZ(0);
+                will-change: transform;
+                backface-visibility: hidden;
+            }
+            .heart {
+                will-change: transform;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    /**
+     * Update layout based on device type (mobile/desktop)
+     */
+    updateLayoutForDevice() {
+        if (this.isMobile) {
+            // Mobile layout - controls on top, content in middle, playlist at bottom
+            document.body.classList.add('mobile-device');
+            
+            // Make sure playlist is initially hidden on mobile
+            if (this.playlistContainer) {
+                this.playlistContainer.style.display = 'none';
+            }
+        } else {
+            // Desktop layout - player content on left, controls on right
+            document.body.classList.remove('mobile-device');
+            
+            // Make sure playlist is visible on desktop
+            if (this.playlistContainer) {
+                this.playlistContainer.style.display = 'block';
+            }
         }
     }
 
@@ -471,9 +543,21 @@ class MusicPlayer {
      */
     togglePlaylist() {
         if (this.isMobile) {
-            // On mobile, show/hide the playlist
-            this.playlistContainer.style.display = 
-                this.playlistContainer.style.display === 'block' ? 'none' : 'block';
+            // On mobile, show/hide the playlist at the bottom
+            const isVisible = this.playlistContainer.style.display === 'block';
+            
+            if (isVisible) {
+                this.playlistContainer.style.display = 'none';
+            } else {
+                this.playlistContainer.style.display = 'block';
+                // Scroll to active item
+                const activeItem = this.playlistItems.querySelector('.active');
+                if (activeItem) {
+                    setTimeout(() => {
+                        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
         } else {
             // On desktop, we always keep it visible in the layout
             // Could toggle classes if needed
