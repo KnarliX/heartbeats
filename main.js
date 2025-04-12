@@ -4,7 +4,8 @@ class MusicPlayer {
         this.isPlaying = false;
         this.currentSongIndex = 0;
 
-        this.playlist = [
+        // Get the playlist from the songs.js file (will be available as a global variable)
+        this.playlist = window.songsList || [
             {
                 title: "Zaroor",
                 artist: "Janvi - My Love",
@@ -28,7 +29,7 @@ class MusicPlayer {
                 artist: "Janvi - My Everything",
                 url: "BULLYA.mp3",
                 art: "https://knarlix.github.io/images/janvi/logo.png"
-            },
+            }
         ];
 
         this.initializeElements();

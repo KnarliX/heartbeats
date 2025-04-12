@@ -1,0 +1,198 @@
+/* 
+ * Desktop-specific CSS for HeartBeats Music Player
+ * Created by KnarliX - Music Player for Janvi's songs
+ * Optimized for larger screens
+ */
+
+@import url('main.css');
+
+body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #7F7FD5);
+}
+
+.music-player {
+    width: 80%;
+    max-width: 1100px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.music-player:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(30, 60, 114, 0.5);
+}
+
+.top-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.bottom-controls {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.bottom-controls::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.player-header {
+    margin-bottom: 2rem;
+}
+
+.player-header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+}
+
+.player-header h1::after {
+    width: 100px;
+    height: 4px;
+    bottom: -15px;
+}
+
+.album-art {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(30, 60, 114, 0.5);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.8s ease;
+}
+
+.album-art:hover {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8),
+                0 0 60px rgba(30, 60, 114, 0.7);
+}
+
+.visualization {
+    height: 60px;
+}
+
+.wave {
+    width: 6px;
+}
+
+.controls {
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.control-btn:hover {
+    transform: translateY(-5px);
+}
+
+.play-btn {
+    width: 70px;
+    height: 70px;
+}
+
+.play-btn:hover {
+    transform: translateY(-8px) scale(1.1);
+}
+
+.extra-controls {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+#volumeSlider {
+    width: 120px;
+}
+
+/* Progress area for PC */
+.progress-area {
+    width: 100%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+}
+
+.progress-bar {
+    height: 8px;
+}
+
+.progress::after {
+    width: 12px;
+    height: 12px;
+}
+
+.song-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+}
+
+.song-info p {
+    font-size: 1.3rem;
+}
+
+.playlist-container {
+    max-height: 250px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#playlistItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+#playlistItems li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#playlistItems li:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#playlistItems li.active {
+    background: rgba(127, 127, 213, 0.3);
+    border-left: 4px solid #7F7FD5;
+}
+
+/* Enhanced heart animation for desktop */
+.heart {
+    top: 20px;
+    right: 20px;
+    font-size: 1.8rem;
+}
+
+/* Desktop-specific hover effects */
+.heart:hover {
+    transform: scale(1.5) rotate(10deg);
+}

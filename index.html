@@ -11,9 +11,13 @@
     <link rel="icon" href="https://knarlix.github.io/images/janvi/logo.png" type="image/png">
     <link rel="apple-touch-icon" href="https://knarlix.github.io/images/janvi/logo.png">
     <title>HeartBeats - Janvi's Music Collection</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- Base styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Responsive styles (loaded dynamically via JS) -->
+    <link id="responsive-stylesheet" rel="stylesheet" href="styles/desktop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
+    <!-- Author: KnarliX - https://github.com/knarlix -->
 </head>
 <body>
     <div class="particles-container">
@@ -32,8 +36,8 @@
     <div class="music-player">
         <div class="heart"><i class="fas fa-heart"></i></div>
         
-        <!-- Left Panel (for PC) -->
-        <div class="left-panel">
+        <!-- Top Content Section -->
+        <div class="top-content">
             <div class="player-header">
                 <h1>HeartBeats</h1>
                 <div class="visualization">
@@ -56,10 +60,7 @@
                 <h2 id="songTitle">Song Title</h2>
                 <p id="artistName">Artist Name</p>
             </div>
-        </div>
-        
-        <!-- Right Panel (for PC) -->
-        <div class="right-panel">
+            
             <div class="progress-area">
                 <div class="progress-bar">
                     <div class="progress"></div>
@@ -69,48 +70,71 @@
                     <span id="duration">0:00</span>
                 </div>
             </div>
-
+        </div>
+        
+        <!-- Bottom Controls Section -->
+        <div class="bottom-controls">
+            <div class="playlist-container">
+                <h3>Playlist</h3>
+                <ul id="playlistItems"></ul>
+            </div>
+            
             <div class="controls">
-                <button id="shuffle" class="control-btn">
+                <button id="shuffle" class="control-btn" title="Shuffle">
                     <i class="fas fa-random"></i>
                 </button>
-                <button id="prev" class="control-btn">
+                <button id="prev" class="control-btn" title="Previous Song">
                     <i class="fas fa-backward"></i>
                 </button>
-                <button id="play" class="control-btn play-btn">
+                <button id="play" class="control-btn play-btn" title="Play/Pause">
                     <i class="fas fa-play"></i>
                 </button>
-                <button id="next" class="control-btn">
+                <button id="next" class="control-btn" title="Next Song">
                     <i class="fas fa-forward"></i>
                 </button>
-                <button id="repeat" class="control-btn">
+                <button id="repeat" class="control-btn" title="Repeat">
                     <i class="fas fa-redo"></i>
                 </button>
             </div>
 
             <div class="extra-controls">
-                <button id="volume" class="control-btn">
+                <button id="volume" class="control-btn" title="Volume">
                     <i class="fas fa-volume-up"></i>
                 </button>
-                <input type="range" id="volumeSlider" min="0" max="100" value="100">
-                <button id="speed" class="control-btn">1x</button>
-                <button id="equalizer" class="control-btn">
+                <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control">
+                <button id="speed" class="control-btn" title="Playback Speed">1x</button>
+                <button id="equalizer" class="control-btn" title="Equalizer">
                     <i class="fas fa-sliders-h"></i>
                 </button>
-                <button id="download" class="control-btn">
+                <button id="download" class="control-btn" title="Download Song">
                     <i class="fas fa-download"></i>
                 </button>
-                <button id="playlist" class="control-btn">
+                <button id="playlist" class="control-btn" title="Show/Hide Playlist">
                     <i class="fas fa-list"></i>
                 </button>
             </div>
-
-            <div class="playlist-container">
-                <h3>Playlist</h3>
-                <ul id="playlistItems"></ul>
-            </div>
+        </div>
+        
+        <!-- Copyright notice -->
+        <div class="copyright">
+            <p>© 2025 KnarliX - All Rights Reserved</p>
+            <p class="small-text">Music content is personal and not for redistribution</p>
         </div>
     </div>
-    <script src="main.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/songs.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('js/service-worker.js')
+                .then(registration => console.log('ServiceWorker registered:', registration.scope))
+                .catch(error => console.log('ServiceWorker registration failed:', error));
+            });
+        }
+    </script>
 </body>
 </html>

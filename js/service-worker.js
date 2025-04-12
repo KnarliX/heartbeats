@@ -1,12 +1,15 @@
 // Service Worker for Janvi's Music Player PWA
+// Created by KnarliX
 
 const CACHE_NAME = 'janvi-music-player-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/style.css',
-  '/main.js',
-  '/songs.js',
+  '/styles/main.css',
+  '/styles/mobile.css',
+  '/styles/desktop.css',
+  '/js/main.js',
+  '/js/songs.js',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
   'https://knarlix.github.io/images/janvi/logo.png'
 ];

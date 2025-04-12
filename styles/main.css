@@ -1,3 +1,9 @@
+/* 
+ * Main CSS File for HeartBeats Music Player
+ * Created by KnarliX - Music Player for Janvi's songs
+ * Common styles shared between mobile and desktop
+ */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap');
 
 * {
@@ -45,29 +51,6 @@ body {
     min-height: 600px;
 }
 
-.music-player:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4),
-                0 0 60px rgba(30, 60, 114, 0.4),
-                0 0 100px rgba(127, 127, 213, 0.2);
-}
-
-/* New sections for top content and bottom controls */
-.top-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 1;
-}
-
-.bottom-controls {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
 .music-player::before {
     content: '';
     position: absolute;
@@ -82,6 +65,23 @@ body {
 @keyframes shine {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+/* Top content section with album artwork and song info */
+.top-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+}
+
+/* Bottom controls section with playback buttons */
+.bottom-controls {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .player-header {
@@ -183,9 +183,10 @@ body {
 }
 
 .rotating {
-    animation: spin360 5s linear infinite; /* 360° smooth rotation */
-    transform-origin: center; /* Rotates around the center */
+    animation: spin360 5s linear infinite;
+    transform-origin: center;
 }
+
 .overlay {
     position: absolute;
     top: 0;
@@ -563,224 +564,36 @@ body {
     }
 }
 
-/* Responsive Design - PC Version */
-@media (min-width: 1024px) {
-    body {
-        background: linear-gradient(135deg, #1e3c72, #2a5298, #7F7FD5);
-    }
-    
-    .music-player {
-        width: 80%;
-        max-width: 1100px;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        overflow: hidden;
-        padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        min-height: 800px;
-    }
-    
-    .top-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 2rem;
-    }
-    
-    .bottom-controls {
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .player-header {
-        margin-bottom: 2rem;
-    }
-    
-    .album-art {
-        width: 350px;
-        height: 350px;
-        margin-bottom: 2rem;
-    }
-    
-    .controls {
-        gap: 1.5rem;
-    }
-    
-    .playlist-container {
-        max-height: 250px;
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .music-player:hover {
-        transform: translateY(-10px) scale(1.02);
-    }
-    
-    /* PC-specific controls styling */
-    .controls {
-        flex-direction: row;
-        justify-content: center;
-        margin-bottom: 1rem;
-    }
-    
-    .extra-controls {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: center;
-    }
-    
-    /* Progress area for PC */
-    .progress-area {
-        width: 100%;
-        max-width: 600px;
-        margin: 1.5rem auto;
-    }
+/* Active state for buttons */
+.control-btn.active {
+    background: rgba(127, 127, 213, 0.3);
+    box-shadow: 0 0 15px rgba(127, 127, 213, 0.5);
 }
 
-@media (max-width: 768px) {
-    .music-player {
-        width: 90%;
-        max-width: 400px;
-        padding: 1.5rem;
-    }
-
-    .album-art {
-        width: 250px;
-        height: 250px;
-    }
+/* Equalizer ON visualization */
+.visualization.equalizer-on .wave {
+    animation: wave 0.5s infinite alternate;
 }
 
-@media (max-width: 480px) {
-    body {
-        align-items: flex-start;
-        padding-top: 1rem;
-    }
+/* Copyright notice */
+.copyright {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
 
-    .music-player {
-        width: 100%;
-        border-radius: 20px 20px 0 0;
-        min-height: calc(100vh - 1rem);
-        padding: 1.5rem 1rem;
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5),
-                    0 0 40px rgba(30, 60, 114, 0.3);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    
-    .top-content {
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-    }
-    
-    .bottom-controls {
-        flex: 0 0 auto;
-        margin-top: auto;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 1rem;
-    }
+.copyright p {
+    margin: 0.2rem 0;
+}
 
-    .album-art {
-        width: 200px;
-        height: 200px;
-        margin-bottom: 1.5rem;
-    }
+.copyright .small-text {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
 
-    .controls {
-        gap: 0.8rem;
-        margin-bottom: 1rem;
-    }
-    
-    .control-btn {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .play-btn {
-        width: 55px;
-        height: 55px;
-    }
-
-    .extra-controls {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem;
-        margin-bottom: 1rem;
-    }
-    
-    .player-header h1 {
-        font-size: 1.7rem;
-    }
-    
-    .progress-area {
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-    
-    .playlist-container {
-        max-height: 200px;
-        padding: 1rem;
-        margin-bottom: 0;
-        overflow-y: auto;
-    }
-    
-    /* Better mobile landscape mode */
-    @media (max-height: 500px) {
-        .music-player {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas: 
-                "header header"
-                "album controls"
-                "album progress"
-                "info extra"
-                "playlist playlist";
-            align-items: center;
-            height: auto;
-            gap: 1rem;
-        }
-        
-        .player-header {
-            grid-area: header;
-            margin-bottom: 0.5rem;
-        }
-        
-        .album-art {
-            grid-area: album;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-        }
-        
-        .song-info {
-            grid-area: info;
-            text-align: left;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-area {
-            grid-area: progress;
-            margin-bottom: 0.5rem;
-        }
-        
-        .controls {
-            grid-area: controls;
-            margin-bottom: 0.5rem;
-        }
-        
-        .extra-controls {
-            grid-area: extra;
-        }
-        
-        .playlist-container {
-            grid-area: playlist;
-        }
-    }
+.copyright:hover {
+    opacity: 1;
 }

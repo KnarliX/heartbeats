@@ -1,0 +1,170 @@
+/* 
+ * Mobile-specific CSS for HeartBeats Music Player
+ * Created by KnarliX - Music Player for Janvi's songs
+ * Optimized for smaller screens and touch interfaces
+ */
+
+@import url('main.css');
+
+body {
+    align-items: flex-start;
+    padding-top: 1rem;
+}
+
+.music-player {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    min-height: calc(100vh - 1rem);
+    padding: 1.5rem 1rem;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(30, 60, 114, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-content {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.bottom-controls {
+    flex: 0 0 auto;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.album-art {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1.5rem;
+}
+
+.controls {
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+}
+
+.play-btn {
+    width: 55px;
+    height: 55px;
+}
+
+.extra-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.player-header h1 {
+    font-size: 1.7rem;
+}
+
+.progress-area {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.playlist-container {
+    max-height: 200px;
+    padding: 1rem;
+    margin-bottom: 0;
+    overflow-y: auto;
+}
+
+.song-info h2 {
+    font-size: 1.5rem;
+}
+
+.song-info p {
+    font-size: 1rem;
+}
+
+/* Mobile landscape mode */
+@media (max-height: 500px) {
+    .music-player {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "header header"
+            "album controls"
+            "album progress"
+            "info extra"
+            "playlist playlist";
+        align-items: center;
+        height: auto;
+        gap: 1rem;
+    }
+    
+    .player-header {
+        grid-area: header;
+        margin-bottom: 0.5rem;
+    }
+    
+    .album-art {
+        grid-area: album;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    
+    .song-info {
+        grid-area: info;
+        text-align: left;
+        margin-bottom: 0.5rem;
+    }
+    
+    .progress-area {
+        grid-area: progress;
+        margin-bottom: 0.5rem;
+    }
+    
+    .controls {
+        grid-area: controls;
+        margin-bottom: 0.5rem;
+    }
+    
+    .extra-controls {
+        grid-area: extra;
+    }
+    
+    .playlist-container {
+        grid-area: playlist;
+    }
+}
+
+/* Enhance touch targets for mobile */
+.control-btn {
+    -webkit-tap-highlight-color: transparent;
+}
+
+#playlistItems li {
+    padding: 1rem;
+    margin: 0.6rem 0;
+}
+
+/* Mobile-specific animations */
+.heart {
+    top: 12px;
+    right: 12px;
+    font-size: 1.3rem;
+}
+
+.visualization {
+    height: 30px;
+    margin: 0.8rem 0;
+}
+
+.wave {
+    width: 3px;
+}

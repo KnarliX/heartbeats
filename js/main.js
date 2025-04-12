@@ -1,34 +1,42 @@
+// Main JavaScript file for HeartBeats Music Player
+// Created by KnarliX - Music Player for Janvi's songs
+
 class MusicPlayer {
     constructor() {
         this.audio = new Audio();
         this.isPlaying = false;
         this.currentSongIndex = 0;
 
-        this.playlist = [
+        // Check device type for responsive design
+        this.isMobile = window.innerWidth <= 768;
+        this.setupResponsiveDesign();
+
+        // Get the playlist from the songs.js file
+        this.playlist = window.songsList || [
             {
-                title: "Zaroor by my premika",
-                artist: "Jannu",
+                title: "Zaroor",
+                artist: "Janvi - My Love",
                 url: "Zaroor by my premika.mp3",
-                art: "https://picsum.photos/300/300"
+                art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "yarra by jannu",
-                artist: "Jannu",
+                title: "Yaara",
+                artist: "Janvi - My Heartbeat",
                 url: "yarra by jannu.mp3",
-                art: "https://picsum.photos/300/300"
+                art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "naina by jannu",
-                artist: "Jannu",
+                title: "Naina",
+                artist: "Janvi - My Soulmate",
                 url: "naina.mp3",
-                art: "https://picsum.photos/300/300"
+                art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "BULLYA by jannu",
-                artist: "Jannu",
+                title: "Bullya",
+                artist: "Janvi - My Everything",
                 url: "BULLYA.mp3",
-                art: "https://picsum.photos/300/300"
-            },
+                art: "https://knarlix.github.io/images/janvi/logo.png"
+            }
         ];
 
         this.initializeElements();
@@ -36,6 +44,31 @@ class MusicPlayer {
         this.loadSong(this.currentSongIndex);
         this.setupMediaSession();
         this.setupVisualizer();
+    }
+
+    // Set up responsive design based on device
+    setupResponsiveDesign() {
+        // Load appropriate stylesheet based on device
+        if (this.isMobile) {
+            document.querySelector('#responsive-stylesheet').href = 'styles/mobile.css';
+        } else {
+            document.querySelector('#responsive-stylesheet').href = 'styles/desktop.css';
+        }
+
+        // Listen for window resize
+        window.addEventListener('resize', () => {
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 768;
+            
+            // Only change if device type changed
+            if (wasMobile !== this.isMobile) {
+                if (this.isMobile) {
+                    document.querySelector('#responsive-stylesheet').href = 'styles/mobile.css';
+                } else {
+                    document.querySelector('#responsive-stylesheet').href = 'styles/desktop.css';
+                }
+            }
+        });
     }
 
     initializeElements() {
@@ -362,7 +395,39 @@ class MusicPlayer {
     }
 }
 
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').then(registration => {
+            console.log('ServiceWorker registration successful');
+        }).catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+        });
+    });
+}
+
+// Background music playback enhancements
+document.addEventListener('visibilitychange', function() {
+    // Keep audio running in background on mobile devices
+    if (document.hidden) {
+        document.title = "🎵 Playing - Janvi's Melody";
+    } else {
+        document.title = "Janvi's Melodious World";
+    }
+});
+
 // Initialize the music player
 document.addEventListener('DOMContentLoaded', () => {
     window.musicPlayer = new MusicPlayer();
+    
+    // Add heart animation click handler
+    const heartIcon = document.querySelector('.heart');
+    if (heartIcon) {
+        heartIcon.addEventListener('click', function() {
+            this.classList.add('heart-clicked');
+            setTimeout(() => {
+                this.classList.remove('heart-clicked');
+            }, 1000);
+        });
+    }
 });
