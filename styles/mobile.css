@@ -130,6 +130,7 @@ body {
     margin-bottom: 1rem;
     border-radius: 12px;
     overflow-y: auto;
+    display: none; /* Hide playlist by default on mobile */
 }
 
 .playlist-container h3 {

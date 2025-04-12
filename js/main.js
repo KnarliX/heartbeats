@@ -38,7 +38,7 @@ class MusicPlayer {
         this.progressBar = document.querySelector('.progress');
         this.progressArea = document.querySelector('.progress-bar');
         
-        // Control buttons
+        // Control buttons - only necessary buttons
         this.playBtn = document.getElementById('play');
         this.prevBtn = document.getElementById('prev');
         this.nextBtn = document.getElementById('next');
@@ -46,9 +46,6 @@ class MusicPlayer {
         this.repeatBtn = document.getElementById('repeat');
         this.volumeBtn = document.getElementById('volume');
         this.volumeSlider = document.getElementById('volumeSlider');
-        this.speedBtn = document.getElementById('speed');
-        this.equalizerBtn = document.getElementById('equalizer');
-        this.downloadBtn = document.getElementById('download');
         this.playlistBtn = document.getElementById('playlist');
         this.heartBtn = document.querySelector('.heart');
         
@@ -95,9 +92,6 @@ class MusicPlayer {
         // Extra controls events
         this.volumeBtn.addEventListener('click', () => this.toggleMute());
         this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
-        this.speedBtn.addEventListener('click', () => this.toggleSpeed());
-        this.equalizerBtn.addEventListener('click', () => this.toggleEqualizer());
-        this.downloadBtn.addEventListener('click', () => this.downloadCurrentSong());
         this.playlistBtn.addEventListener('click', () => this.togglePlaylist());
         this.heartBtn.addEventListener('click', (e) => {
             e.currentTarget.classList.add('heart-clicked');
@@ -160,6 +154,9 @@ class MusicPlayer {
         this.albumArt.classList.add('rotating');
         this.updateMediaSessionPlaybackState('playing');
         
+        // Start heart beating animation
+        document.querySelector('.heart').classList.add('beating');
+        
         // Start visualizer if enabled
         if (this.isEqualizerOn) {
             this.startVisualizer();
@@ -172,6 +169,9 @@ class MusicPlayer {
         this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
         this.albumArt.classList.remove('rotating');
         this.updateMediaSessionPlaybackState('paused');
+        
+        // Stop heart beating animation
+        document.querySelector('.heart').classList.remove('beating');
         
         // Stop visualizer
         if (this.isEqualizerOn) {
@@ -327,7 +327,20 @@ class MusicPlayer {
     }
 
     togglePlaylist() {
-        this.playlistContainer.classList.toggle('hidden');
+        // Check if we're on mobile or desktop
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // On mobile, show/hide the playlist
+            if (this.playlistContainer.style.display === 'block') {
+                this.playlistContainer.style.display = 'none';
+            } else {
+                this.playlistContainer.style.display = 'block';
+            }
+        } else {
+            // On desktop, use hidden class
+            this.playlistContainer.classList.toggle('hidden');
+        }
     }
 
     downloadCurrentSong() {

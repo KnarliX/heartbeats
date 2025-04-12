@@ -48,6 +48,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 4rem; /* Extra space for footer */
     min-height: 600px;
 }
 
@@ -445,18 +446,22 @@ body {
     display: none;
 }
 
-/* Heart animation for Janvi's songs */
+/* Heart animation */
 .heart {
     position: absolute;
     top: 15px;
     right: 15px;
     font-size: 1.5rem;
     color: #ff6b9d;
-    animation: heartbeat 1.5s infinite;
     z-index: 10;
     cursor: pointer;
     text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
     transition: all 0.3s ease;
+}
+
+/* Heartbeat animation only during playback */
+.heart.beating {
+    animation: heartbeat 1.5s infinite;
 }
 
 .heart:hover {
@@ -575,14 +580,23 @@ body {
     animation: wave 0.5s infinite alternate;
 }
 
-/* Copyright notice */
+/* Copyright notice - positioned at the bottom */
 .copyright {
-    margin-top: 1.5rem;
+    margin-top: auto;
     font-size: 0.8rem;
     opacity: 0.7;
     text-align: center;
     padding-top: 10px;
+    padding-bottom: 5px;
     border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    background: rgba(42, 0, 73, 0.5);
+    backdrop-filter: blur(5px);
 }
 
 .copyright p {

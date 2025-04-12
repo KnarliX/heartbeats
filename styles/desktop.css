@@ -39,6 +39,7 @@ body {
     order: 1; /* Make playlist appear on the left */
     display: flex;
     flex-direction: column;
+    position: relative; /* For proper positioning */
 }
 
 .bottom-controls::before {
@@ -59,6 +60,7 @@ body {
     align-items: center;
     justify-content: center;
     order: 2; /* Make player content appear on the right */
+    position: relative; /* For proper positioning */
 }
 
 .player-header {
@@ -102,12 +104,18 @@ body {
 .controls {
     gap: 2rem;
     margin-bottom: 1.5rem;
+    justify-content: center; /* Center controls on desktop */
 }
 
 .control-btn {
     width: 50px;
     height: 50px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.extra-controls {
+    justify-content: center;
+    align-items: center;
 }
 
 .control-btn:hover {
@@ -165,8 +173,11 @@ body {
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
-    max-height: 80%;
+    max-height: 70vh; /* Use viewport height for better scrolling */
     overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(127, 127, 213, 0.5) rgba(255, 255, 255, 0.05);
 }
 
 #playlistItems {
