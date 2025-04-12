@@ -34,14 +34,127 @@ body {
     position: relative;
 }
 
-/* Top content with controls first (moved from bottom) */
-.bottom-controls {
+/* Top content with album art and info first */
+.top-content {
     width: 100%;
-    padding: 1rem;
-    order: 1; /* Changed order to appear first */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    order: 1; /* Changed order to appear first */
+    flex: 0 0 auto; /* Don't let it grow too big */
+}
+
+.player-header {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.player-header h1 {
+    font-size: 1.5rem; /* Slightly smaller */
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 0 0.3rem 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.visualization {
+    height: 30px;
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+}
+
+.wave {
+    width: 3px;
+    height: 15px !important;
+    margin: 0 2px;
+    transform: translateZ(0); /* Hardware acceleration */
+}
+
+.album-art {
+    width: 170px; /* Slightly smaller for better layout */
+    height: 170px;
+    margin: 0.5rem auto 0.5rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transform: translateZ(0); /* Hardware acceleration */
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform; /* Performance optimization */
+}
+
+.song-info {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0 0.5rem;
+    text-align: center;
+}
+
+.song-info h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.song-info p {
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.progress-area {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+.progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #9C27B0;
+    border-radius: 4px;
+    transform: translateZ(0); /* Hardware acceleration */
+}
+
+.time {
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Controls in the middle */
+.bottom-controls {
+    width: 100%;
+    padding: 0.5rem 1rem 1rem;
+    order: 2; /* Changed order to appear in the middle */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 auto; /* Don't let it grow */
 }
 
 .controls {
@@ -83,6 +196,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 0.8rem;
+    margin-top: 0.3rem;
 }
 
 #volumeSlider {
@@ -104,117 +218,10 @@ body {
     border-radius: 50%;
 }
 
-/* Album art and information */
-.top-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 1rem;
-    order: 2; /* Changed order to appear second */
-    flex: 1;
-    overflow-y: auto; /* Allow scroll if needed */
-}
-
-.player-header {
-    margin-bottom: 0.5rem;
-    width: 100%;
-    text-align: center;
-}
-
-.player-header h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin: 0 0 0.3rem 0;
-    padding: 0;
-    text-transform: uppercase;
-}
-
-.visualization {
-    height: 30px;
-    margin: 0.5rem 0;
-    display: flex;
-    justify-content: center;
-    gap: 3px;
-}
-
-.wave {
-    width: 3px;
-    height: 15px !important;
-    margin: 0 2px;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-.album-art {
-    width: 230px;
-    height: 230px;
-    margin: 0.5rem auto 1rem;
-    border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-.album-art img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    will-change: transform; /* Performance optimization */
-}
-
-.song-info {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0 0.5rem;
-    text-align: center;
-}
-
-.song-info h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin: 0 0 0.2rem 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-.song-info p {
-    font-size: 1rem;
-    margin: 0;
-    opacity: 0.8;
-    font-weight: 400;
-}
-
-.progress-area {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0 0.5rem;
-}
-
-.progress-bar {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: #9C27B0;
-    border-radius: 4px;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-.time {
-    font-size: 0.7rem;
-    margin-top: 0.3rem;
-    color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    justify-content: space-between;
+/* Empty space to push playlist button to bottom */
+.space-filler {
+    flex: 1 1 auto;
+    min-height: 10px;
 }
 
 /* Playlist styling for mobile - moved to bottom */
@@ -223,7 +230,7 @@ body {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 10px 10px 0 0;
     padding: 1rem;
-    max-height: 35vh; /* Use percentage of viewport height */
+    max-height: 40vh; /* Use percentage of viewport height */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
     display: none; /* Hide playlist by default on mobile */
@@ -276,6 +283,17 @@ body {
     transform: scale(0.99); /* Subtle touch feedback */
 }
 
+/* Playlist button at bottom for easy access */
+.playlist-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    order: 3;
+    margin-top: auto; /* Push to bottom */
+    margin-bottom: 1rem;
+}
+
 /* Other mobile-specific styles */
 .heart {
     position: absolute;
@@ -294,6 +312,7 @@ body {
     padding: 0.3rem 0;
     width: 100%;
     margin-top: 0.5rem;
+    order: 4;
 }
 
 /* Optimize for touch */
@@ -324,12 +343,16 @@ body {
 /* Mobile-specific optimizations for different screen sizes */
 @media (max-height: 700px) {
     .album-art {
-        width: 180px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
     }
     
     .song-info h2 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+    }
+    
+    .song-info p {
+        font-size: 0.8rem;
     }
     
     .control-btn {
@@ -341,6 +364,10 @@ body {
         width: 55px;
         height: 55px;
     }
+    
+    .player-header h1 {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-height: 600px) {
@@ -349,8 +376,12 @@ body {
     }
     
     .album-art {
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 120px;
+    }
+    
+    .player-header h1 {
+        font-size: 1.2rem;
     }
 }
 

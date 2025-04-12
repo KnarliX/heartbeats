@@ -101,12 +101,39 @@ class MusicPlayer {
      */
     updateLayoutForDevice() {
         if (this.isMobile) {
-            // Mobile layout - controls on top, content in middle, playlist at bottom
+            // Mobile layout - album art on top, controls in middle, playlist at bottom
             document.body.classList.add('mobile-device');
             
             // Make sure playlist is initially hidden on mobile
             if (this.playlistContainer) {
                 this.playlistContainer.style.display = 'none';
+            }
+            
+            // Add a space filler if it doesn't exist
+            if (!document.querySelector('.space-filler') && document.querySelector('.music-player')) {
+                const spaceFiller = document.createElement('div');
+                spaceFiller.className = 'space-filler';
+                document.querySelector('.music-player').appendChild(spaceFiller);
+            }
+            
+            // Move the playlist button container to bottom if it doesn't exist
+            if (!document.querySelector('.playlist-button-container') && this.playlistBtn) {
+                const container = document.createElement('div');
+                container.className = 'playlist-button-container';
+                container.appendChild(this.playlistBtn.cloneNode(true));
+                document.querySelector('.music-player').appendChild(container);
+                
+                // Update the event listener for the new button
+                document.querySelector('.playlist-button-container .playlist-btn')
+                    .addEventListener('click', () => this.togglePlaylist());
+                
+                // Hide the original button if we created a new one
+                if (this.playlistBtn.parentNode) {
+                    this.playlistBtn.style.display = 'none';
+                }
+                
+                // Update our reference to the playlist button
+                this.playlistBtn = document.querySelector('.playlist-button-container .playlist-btn');
             }
         } else {
             // Desktop layout - player content on left, controls on right
@@ -115,6 +142,22 @@ class MusicPlayer {
             // Make sure playlist is visible on desktop
             if (this.playlistContainer) {
                 this.playlistContainer.style.display = 'block';
+            }
+            
+            // Remove mobile-specific elements
+            const spaceFiller = document.querySelector('.space-filler');
+            if (spaceFiller) {
+                spaceFiller.remove();
+            }
+            
+            const playlistBtnContainer = document.querySelector('.playlist-button-container');
+            if (playlistBtnContainer) {
+                playlistBtnContainer.remove();
+            }
+            
+            // Show the original playlist button
+            if (this.playlistBtn) {
+                this.playlistBtn.style.display = '';
             }
         }
     }
