@@ -118,24 +118,25 @@
                 <button id="volume" class="control-btn" title="Volume" aria-label="Volume">
                     <i class="fas fa-volume-up"></i>
                 </button>
-                <input type="range" id="volumeSlider" min="0" max="100" value="80" title="Volume Control" aria-label="Volume Control">
+                <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control" aria-label="Volume Control">
                 <button id="playlist" class="control-btn" title="Show/Hide Playlist" aria-label="Toggle Playlist">
                     <i class="fas fa-list-ul"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Playlist container - appears from bottom -->
+        <!-- Playlist container - appears from bottom on mobile, right side on desktop -->
         <div class="playlist-container">
             <h3>PLAYLIST</h3>
-            <button id="playlist-close" class="playlist-close" title="Close Playlist" aria-label="Close Playlist">
+            <!-- No X button on desktop, only visible on mobile -->
+            <button id="playlist-close" class="playlist-close mobile-only" title="Close Playlist" aria-label="Close Playlist">
                 <i class="fas fa-times"></i>
             </button>
             <ul id="playlistItems"></ul>
         </div>
         
-        <!-- Copyright notice -->
-        <div class="copyright">
+        <!-- Copyright notice - only visible on desktop -->
+        <div class="copyright desktop-only">
             <p>© <span id="current-year">2025</span> KnarliX - All Rights Reserved</p>
         </div>
     </div>

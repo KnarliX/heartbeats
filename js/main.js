@@ -204,7 +204,7 @@ class MusicPlayer {
         // Clear existing items
         this.playlistItems.innerHTML = '';
         
-        // Create playlist items with event delegation for better performance
+        // Create playlist items with direct click handlers for each item
         const fragment = document.createDocumentFragment();
         
         this.songs.forEach((song, index) => {
@@ -215,6 +215,27 @@ class MusicPlayer {
             if (index === this.currentSongIndex) {
                 li.classList.add('active');
             }
+            
+            // Add direct click handler to each item instead of delegation
+            li.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                this.currentSongIndex = parseInt(li.dataset.index);
+                this.loadSong(this.currentSongIndex);
+                this.playAudio();
+                
+                // Update active class immediately
+                Array.from(this.playlistItems.children).forEach(item => {
+                    item.classList.remove('active');
+                });
+                li.classList.add('active');
+                
+                // Hide playlist on mobile after selection
+                if (this.isMobile) {
+                    setTimeout(() => {
+                        this.playlistContainer.style.display = 'none';
+                    }, 300);
+                }
+            });
             
             fragment.appendChild(li);
         });

@@ -258,6 +258,7 @@ body {
     text-transform: uppercase;
     font-weight: 600;
     border-bottom: 2px solid rgba(156, 39, 176, 0.3);
+    text-align: center;
 }
 
 #playlistItems {
@@ -267,7 +268,7 @@ body {
 }
 
 #playlistItems li {
-    padding: 0.9rem 1.2rem;
+    padding: 1rem 1.2rem;
     margin: 0.5rem 0;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.05);
@@ -279,12 +280,18 @@ body {
     text-overflow: ellipsis;
     font-weight: 400;
     transition: all 0.2s ease;
+    border: 1px solid rgba(156, 39, 176, 0.1);
+    /* Make touch targets larger for mobile */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
 }
 
 #playlistItems li.active {
     background: rgba(156, 39, 176, 0.3);
     color: white;
     font-weight: 500;
+    box-shadow: 0 0 10px rgba(156, 39, 176, 0.3);
 }
 
 #playlistItems li:active {
@@ -303,16 +310,18 @@ body {
     filter: drop-shadow(0 0 5px rgba(255, 64, 129, 0.3));
 }
 
-/* Copyright footer */
-.copyright {
-    font-size: 0.65rem;
-    opacity: 0.6;
-    text-align: center;
-    padding: 0.5rem 0;
-    width: 100%;
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0;
+/* Copyright footer - hidden on mobile */
+.copyright.desktop-only {
+    display: none;
+}
+
+/* Show/hide elements based on mobile/desktop */
+.mobile-only {
+    display: block;
+}
+
+.desktop-only {
+    display: none;
 }
 
 /* Touch optimizations */
