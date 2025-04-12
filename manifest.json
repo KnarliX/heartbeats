@@ -4,8 +4,8 @@
   "description": "Enjoy listening to beautiful songs by Janvi",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#9c27b0",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
   "orientation": "any",
   "icons": [
     {

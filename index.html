@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#9c27b0">
+    <meta name="theme-color" content="#1e3c72">
     <meta name="description" content="A beautiful music player featuring songs sung by Janvi">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -31,77 +31,84 @@
     
     <div class="music-player">
         <div class="heart"><i class="fas fa-heart"></i></div>
-        <div class="player-header">
-            <h1>Janvi's Melody Hub</h1>
-            <div class="visualization">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
+        
+        <!-- Left Panel (for PC) -->
+        <div class="left-panel">
+            <div class="player-header">
+                <h1>Janvi's Melody Hub</h1>
+                <div class="visualization">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            </div>
+
+            <div class="album-art">
+                <img id="albumArt" src="https://knarlix.github.io/images/janvi/logo.png" alt="Album Art">
+                <div class="overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            
+            <div class="song-info">
+                <h2 id="songTitle">Song Title</h2>
+                <p id="artistName">Artist Name</p>
             </div>
         </div>
-
-        <div class="album-art">
-            <img id="albumArt" src="https://knarlix.github.io/images/janvi/logo.png" alt="Album Art">
-            <div class="overlay">
-                <i class="fas fa-play"></i>
+        
+        <!-- Right Panel (for PC) -->
+        <div class="right-panel">
+            <div class="progress-area">
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="time">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
             </div>
-        </div>
 
-        <div class="song-info">
-            <h2 id="songTitle">Song Title</h2>
-            <p id="artistName">Artist Name</p>
-        </div>
-
-        <div class="progress-area">
-            <div class="progress-bar">
-                <div class="progress"></div>
+            <div class="controls">
+                <button id="shuffle" class="control-btn">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button id="prev" class="control-btn">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button id="play" class="control-btn play-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="next" class="control-btn">
+                    <i class="fas fa-forward"></i>
+                </button>
+                <button id="repeat" class="control-btn">
+                    <i class="fas fa-redo"></i>
+                </button>
             </div>
-            <div class="time">
-                <span id="currentTime">0:00</span>
-                <span id="duration">0:00</span>
+
+            <div class="extra-controls">
+                <button id="volume" class="control-btn">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <input type="range" id="volumeSlider" min="0" max="100" value="100">
+                <button id="speed" class="control-btn">1x</button>
+                <button id="equalizer" class="control-btn">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <button id="download" class="control-btn">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button id="playlist" class="control-btn">
+                    <i class="fas fa-list"></i>
+                </button>
             </div>
-        </div>
 
-        <div class="controls">
-            <button id="shuffle" class="control-btn">
-                <i class="fas fa-random"></i>
-            </button>
-            <button id="prev" class="control-btn">
-                <i class="fas fa-backward"></i>
-            </button>
-            <button id="play" class="control-btn play-btn">
-                <i class="fas fa-play"></i>
-            </button>
-            <button id="next" class="control-btn">
-                <i class="fas fa-forward"></i>
-            </button>
-            <button id="repeat" class="control-btn">
-                <i class="fas fa-redo"></i>
-            </button>
-        </div>
-
-        <div class="extra-controls">
-            <button id="volume" class="control-btn">
-                <i class="fas fa-volume-up"></i>
-            </button>
-            <input type="range" id="volumeSlider" min="0" max="100" value="100">
-            <button id="speed" class="control-btn">1x</button>
-            <button id="equalizer" class="control-btn">
-                <i class="fas fa-sliders-h"></i>
-            </button>
-            <button id="download" class="control-btn">
-                <i class="fas fa-download"></i>
-            </button>
-            <button id="playlist" class="control-btn">
-                <i class="fas fa-list"></i>
-            </button>
-        </div>
-
-        <div class="playlist-container hidden">
-            <h3>Playlist</h3>
-            <ul id="playlistItems"></ul>
+            <div class="playlist-container">
+                <h3>Playlist</h3>
+                <ul id="playlistItems"></ul>
+            </div>
         </div>
     </div>
     <script src="main.js"></script>
