@@ -203,7 +203,7 @@ body {
 /* Mobile footer does not need the playlist button as per screenshot */
 .playlist-button-container, 
 #playlist-mobile {
-    display: none !important;
+    display: flex;
 }
 
 /* Make the volume button to toggle playlist in mobile view */
