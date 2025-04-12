@@ -1,0 +1,22 @@
+{
+  "name": "Janvi's Melodious World",
+  "short_name": "Janvi's Melody",
+  "description": "Enjoy listening to beautiful songs by Janvi",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#9c27b0",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "https://knarlix.github.io/images/janvi/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://knarlix.github.io/images/janvi/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

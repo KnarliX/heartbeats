@@ -6,26 +6,26 @@ class MusicPlayer {
 
         this.playlist = [
             {
-                title: "Zaroor by my premika",
-                artist: "Janvi",
+                title: "Zaroor",
+                artist: "Janvi - My Love",
                 url: "Zaroor by my premika.mp3",
                 art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "yarra by jannu",
-                artist: "Janvi",
+                title: "Yaara",
+                artist: "Janvi - My Heartbeat",
                 url: "yarra by jannu.mp3",
                 art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "naina by jannu",
-                artist: "Janvi",
+                title: "Naina",
+                artist: "Janvi - My Soulmate",
                 url: "naina.mp3",
                 art: "https://knarlix.github.io/images/janvi/logo.png"
             },
             {
-                title: "BULLYA by jannu",
-                artist: "Janvi",
+                title: "Bullya",
+                artist: "Janvi - My Everything",
                 url: "BULLYA.mp3",
                 art: "https://knarlix.github.io/images/janvi/logo.png"
             },
@@ -362,7 +362,39 @@ class MusicPlayer {
     }
 }
 
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').then(registration => {
+            console.log('ServiceWorker registration successful');
+        }).catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+        });
+    });
+}
+
+// Background music playback enhancements
+document.addEventListener('visibilitychange', function() {
+    // Keep audio running in background on mobile devices
+    if (document.hidden) {
+        document.title = "🎵 Playing - Janvi's Melody";
+    } else {
+        document.title = "Janvi's Melodious World";
+    }
+});
+
 // Initialize the music player
 document.addEventListener('DOMContentLoaded', () => {
     window.musicPlayer = new MusicPlayer();
+    
+    // Add heart animation click handler
+    const heartIcon = document.querySelector('.heart');
+    if (heartIcon) {
+        heartIcon.addEventListener('click', function() {
+            this.classList.add('heart-clicked');
+            setTimeout(() => {
+                this.classList.remove('heart-clicked');
+            }, 1000);
+        });
+    }
 });

@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -10,8 +12,17 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(45deg, #0a0a0a, #3a3a3a);
+    background: linear-gradient(135deg, #000000, #1a0033, #4b0082);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: white;
+    overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .music-player {
@@ -19,12 +30,22 @@ body {
     backdrop-filter: blur(20px);
     padding: 2rem;
     border-radius: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 60px rgba(156, 39, 176, 0.3),
+                0 0 100px rgba(213, 0, 249, 0.1);
     width: 400px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.music-player:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4),
+                0 0 60px rgba(156, 39, 176, 0.4),
+                0 0 100px rgba(213, 0, 249, 0.2);
 }
 
 .music-player::before {
@@ -58,6 +79,18 @@ body {
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
+    animation: textGlow 2s ease-in-out infinite alternate;
+    text-shadow: 0 0 10px rgba(213, 0, 249, 0.3);
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(213, 0, 249, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(213, 0, 249, 0.7),
+                    0 0 30px rgba(156, 39, 176, 0.5);
+    }
 }
 
 .visualization {
@@ -76,7 +109,15 @@ body {
     transform-origin: bottom;
     opacity: 0.8;
     box-shadow: 0 0 10px rgba(213, 0, 249, 0.5);
+    transition: height 0.2s ease;
+    height: 20px;
 }
+
+.wave:nth-child(1) { animation-delay: 0.2s; }
+.wave:nth-child(2) { animation-delay: 0.4s; }
+.wave:nth-child(3) { animation-delay: 0.6s; }
+.wave:nth-child(4) { animation-delay: 0.8s; }
+.wave:nth-child(5) { animation-delay: 1.0s; }
 
 @keyframes wave {
     0% { transform: scaleY(0.1); }
@@ -91,9 +132,17 @@ body {
     margin: 0 auto 2rem;
     border-radius: 50%;
     overflow: hidden;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(156, 39, 176, 0.4);
     transform-style: preserve-3d;
     perspective: 1000px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.album-art:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7),
+                0 0 50px rgba(156, 39, 176, 0.6);
 }
 
 .album-art img {
@@ -335,13 +384,163 @@ body {
     display: none;
 }
 
+/* Heart animation for Janvi's songs */
+.heart {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #ff6b9d;
+    animation: heartbeat 1.5s infinite;
+    z-index: 10;
+    cursor: pointer;
+    text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+    transition: all 0.3s ease;
+}
+
+.heart:hover {
+    transform: scale(1.3);
+    color: #ff4081;
+}
+
+.heart-clicked {
+    animation: heart-explosion 1s ease forwards !important;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.2); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.2); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes heart-explosion {
+    0% { transform: scale(1); }
+    10% { transform: scale(1.7); }
+    20% { transform: scale(0.8); }
+    30% { transform: scale(1.4); }
+    40% { transform: scale(0.9); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 39, 176, 0.5);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(213, 0, 249, 0.7);
+}
+
+/* Floating particles */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(213, 0, 249, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: float-up 15s linear infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 10s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 12s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 14s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 16s; }
+.particle:nth-child(10) { left: 95%; animation-delay: 18s; }
+
+@keyframes float-up {
+    0% {
+        transform: translateY(110vh) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.8;
+    }
+    80% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* PWA styles for better background playback & mobile experience */
+@media (display-mode: standalone) {
+    body {
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+}
+
 /* Responsive Design */
+@media (min-width: 1024px) {
+    .music-player {
+        width: 450px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .music-player:hover {
+        transform: translateY(-10px) scale(1.02);
+    }
+}
+
+@media (max-width: 768px) {
+    .music-player {
+        width: 90%;
+        max-width: 400px;
+        padding: 1.5rem;
+    }
+
+    .album-art {
+        width: 250px;
+        height: 250px;
+    }
+}
+
 @media (max-width: 480px) {
+    body {
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+
     .music-player {
         width: 100%;
-        border-radius: 0;
-        min-height: 100vh;
+        border-radius: 20px 20px 0 0;
+        min-height: calc(100vh - 2rem);
         padding: 1.5rem;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(156, 39, 176, 0.3);
     }
 
     .album-art {
@@ -350,10 +549,78 @@ body {
     }
 
     .controls {
-        gap: 1rem;
+        gap: 0.8rem;
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .play-btn {
+        width: 55px;
+        height: 55px;
     }
 
     .extra-controls {
         flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .player-header h1 {
+        font-size: 1.7rem;
+    }
+    
+    /* Better mobile landscape mode */
+    @media (max-height: 500px) {
+        .music-player {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: 
+                "header header"
+                "album controls"
+                "album progress"
+                "info extra"
+                "playlist playlist";
+            align-items: center;
+            height: auto;
+            gap: 1rem;
+        }
+        
+        .player-header {
+            grid-area: header;
+            margin-bottom: 0.5rem;
+        }
+        
+        .album-art {
+            grid-area: album;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        .song-info {
+            grid-area: info;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-area {
+            grid-area: progress;
+            margin-bottom: 0.5rem;
+        }
+        
+        .controls {
+            grid-area: controls;
+            margin-bottom: 0.5rem;
+        }
+        
+        .extra-controls {
+            grid-area: extra;
+        }
+        
+        .playlist-container {
+            grid-area: playlist;
+        }
     }
 }
