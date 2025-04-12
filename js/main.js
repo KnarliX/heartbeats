@@ -154,8 +154,10 @@ class MusicPlayer {
         this.albumArt.classList.add('rotating');
         this.updateMediaSessionPlaybackState('playing');
         
-        // Start heart beating animation
-        document.querySelector('.heart').classList.add('beating');
+        // Change to faster heart beating animation
+        const heartElement = document.querySelector('.heart');
+        heartElement.classList.remove('slow-beating');
+        heartElement.classList.add('beating');
         
         // Start visualizer if enabled
         if (this.isEqualizerOn) {
@@ -170,8 +172,10 @@ class MusicPlayer {
         this.albumArt.classList.remove('rotating');
         this.updateMediaSessionPlaybackState('paused');
         
-        // Stop heart beating animation
-        document.querySelector('.heart').classList.remove('beating');
+        // Change back to slow heart beating animation
+        const heartElement = document.querySelector('.heart');
+        heartElement.classList.remove('beating');
+        heartElement.classList.add('slow-beating');
         
         // Stop visualizer
         if (this.isEqualizerOn) {
