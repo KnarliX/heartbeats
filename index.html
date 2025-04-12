@@ -2,31 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1e3c72">
-    <meta name="description" content="A beautiful music player featuring songs sung by Janvi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4A148C">
+    <meta name="description" content="A beautiful music player for your personal music collection">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="
-        HeartBeats">
-    <link rel="icon" href="https://knarlix.github.io/images/janvi/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="https://knarlix.github.io/images/janvi/logo.png">
-    <title>HeartBeats - Janvi's Music Collection</title>
-    <!-- Base styles -->
+    <meta name="apple-mobile-web-app-title" content="HeartBeats">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="js/songs.js" as="script">
+    <link rel="preload" href="js/main.js" as="script">
+    <link rel="preload" href="styles/main.css" as="style">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <title>HeartBeats - Music Player</title>
+    
+    <!-- Optimized stylesheet loading -->
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Responsive styles (loaded dynamically via JS) -->
-    <link id="responsive-stylesheet" rel="stylesheet" href="styles/desktop.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-    <!-- Author: KnarliX - https://github.com/knarlix -->
+    
+    <!-- Load font awesome asynchronously -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Responsive stylesheet loader -->
+    <script>
+        // Detect mobile device and load appropriate stylesheet
+        (function() {
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = isMobile ? 'styles/mobile.css' : 'styles/desktop.css';
+            link.id = 'responsive-stylesheet';
+            document.head.appendChild(link);
+        })();
+    </script>
 </head>
 <body>
+    <!-- Simplified particles for better performance -->
     <div class="particles-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
         <div class="particle"></div>
@@ -51,15 +67,13 @@
             </div>
 
             <div class="album-art">
-                <img id="albumArt" src="https://knarlix.github.io/images/janvi/logo.png" alt="Album Art">
-                <div class="overlay">
-                    <i class="fas fa-play"></i>
-                </div>
+                <!-- Loading attribute for better performance -->
+                <img id="albumArt" src="placeholder.png" alt="Album Art" loading="eager">
             </div>
             
             <div class="song-info">
-                <h2 id="songTitle">Song Title</h2>
-                <p id="artistName">Artist Name</p>
+                <h2 id="songTitle">Loading...</h2>
+                <p id="artistName">Please wait</p>
             </div>
             
             <div class="progress-area">
@@ -81,30 +95,29 @@
             </div>
             
             <div class="controls">
-                <button id="shuffle" class="control-btn" title="Shuffle">
+                <button id="shuffle" class="control-btn" title="Shuffle" aria-label="Shuffle">
                     <i class="fas fa-random"></i>
                 </button>
-                <button id="prev" class="control-btn" title="Previous Song">
+                <button id="prev" class="control-btn" title="Previous Song" aria-label="Previous Song">
                     <i class="fas fa-backward"></i>
                 </button>
-                <button id="play" class="control-btn play-btn" title="Play/Pause">
+                <button id="play" class="control-btn play-btn" title="Play/Pause" aria-label="Play or Pause">
                     <i class="fas fa-play"></i>
                 </button>
-                <button id="next" class="control-btn" title="Next Song">
+                <button id="next" class="control-btn" title="Next Song" aria-label="Next Song">
                     <i class="fas fa-forward"></i>
                 </button>
-                <button id="repeat" class="control-btn" title="Repeat">
+                <button id="repeat" class="control-btn" title="Repeat" aria-label="Repeat">
                     <i class="fas fa-redo"></i>
                 </button>
             </div>
 
             <div class="extra-controls">
-                <button id="volume" class="control-btn" title="Volume">
+                <button id="volume" class="control-btn" title="Volume" aria-label="Volume">
                     <i class="fas fa-volume-up"></i>
                 </button>
-                <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control">
-                <!-- Simplified controls - removed unnecessary buttons -->
-                <button id="playlist" class="control-btn" title="Show/Hide Playlist">
+                <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control" aria-label="Volume Control">
+                <button id="playlist" class="control-btn" title="Show/Hide Playlist" aria-label="Toggle Playlist">
                     <i class="fas fa-list"></i>
                 </button>
             </div>
@@ -115,23 +128,23 @@
             <p>© <span id="current-year">2025</span> KnarliX - All Rights Reserved</p>
             <p class="small-text">Music content is personal and not for redistribution</p>
         </div>
-        <script>
-            // Set copyright year dynamically
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        </script>
     </div>
     
-    <!-- Scripts -->
-    <script src="js/songs.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Scripts - defer loading for better performance -->
+    <script src="js/songs.js" defer></script>
+    <script src="js/main.js" defer></script>
     
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Registration - moved to the end for better page load -->
     <script>
+        // Set copyright year dynamically
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Register service worker after page load
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('js/service-worker.js')
-                .then(registration => console.log('ServiceWorker registered:', registration.scope))
-                .catch(error => console.log('ServiceWorker registration failed:', error));
+                .then(registration => console.log('ServiceWorker registered'))
+                .catch(error => console.log('ServiceWorker registration failed'));
             });
         }
     </script>

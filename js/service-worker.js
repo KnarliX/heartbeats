@@ -1,17 +1,25 @@
-// Service Worker for Janvi's Music Player PWA
-// Created by KnarliX
+/**
+ * HeartBeats Music Player - Service Worker
+ * Optimized for performance and offline usage
+ */
 
-const CACHE_NAME = 'janvi-music-player-v1';
+const CACHE_NAME = 'heartbeats-player-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles/main.css',
-  '/styles/mobile.css',
-  '/styles/desktop.css',
-  '/js/main.js',
-  '/js/songs.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-  'https://knarlix.github.io/images/janvi/logo.png'
+  './',
+  './index.html',
+  './styles/main.css',
+  './styles/mobile.css',
+  './styles/desktop.css',
+  './js/main.js',
+  './js/songs.js',
+  './placeholder.png',
+  './manifest.json',
+  './favicon.ico',
+  './Zaroor by my premika.mp3',
+  './yarra by jannu.mp3',
+  './naina.mp3',
+  './BULLYA.mp3',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
 // Install event - cache assets
@@ -25,35 +33,66 @@ self.addEventListener('install', event => {
   );
 });
 
-// Fetch event - serve from cache if available, otherwise fetch and cache
+// Fetch event - optimized cache strategy for different resource types
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+  // Handle audio files differently - offline-first approach
+  if (event.request.url.match(/\.(mp3|ogg|wav)$/i)) {
+    event.respondWith(
+      caches.match(event.request).then(cachedResponse => {
+        // Return cached audio file if it exists
+        if (cachedResponse) {
+          return cachedResponse;
         }
-        return fetch(event.request).then(
-          response => {
-            // Check if we received a valid response
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response as it's a stream and can only be consumed once
+        
+        // Otherwise try to fetch it from network and cache it
+        return fetch(event.request)
+          .then(response => {
+            // Clone the response and cache it for future
             const responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache);
+            });
             return response;
-          }
-        );
+          })
+          .catch(() => {
+            // If both cache and network fail, return a fallback response
+            console.log('Failed to fetch audio: ' + event.request.url);
+            // Could return a fallback audio file if desired
+            return new Response('', {status: 503, statusText: 'Audio unavailable offline'});
+          });
       })
     );
+    return; // Important - exit early for audio files
+  }
+  
+  // Regular assets - network first, fall back to cache, then offline page
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Only cache valid responses from same origin (to conserve cache space)
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return response;
+      })
+      .catch(() => {
+        // If network fails, try to return from cache
+        return caches.match(event.request).then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // If the request is for a page, return the offline page
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+          // Otherwise return a basic error
+          return new Response('Network error', {status: 503, statusText: 'Service Unavailable'});
+        });
+      })
+  );
 });
 
 // Activate event - clean up old caches

@@ -1,33 +1,55 @@
-// HeartBeats Music Player - Main JavaScript
-// Created by KnarliX - Music Player for Love Songs
+/**
+ * HeartBeats Music Player - Main JavaScript
+ * Optimized for performance and low-bandwidth connections
+ */
 
 class MusicPlayer {
     constructor() {
+        // State variables
         this.currentSongIndex = 0;
         this.isPlaying = false;
         this.isShuffleOn = false;
         this.isRepeatOn = false;
         this.isMuted = false;
-        this.isEqualizerOn = false;
-        this.playbackSpeed = 1;
-        this.audio = new Audio();
-        this.audioContext = null;
-        this.analyzer = null;
         this.songs = songs || [];
-
-        this.setupResponsiveDesign();
+        this.audio = new Audio();
+        
+        // Set up after DOM load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
+    }
+    
+    /**
+     * Initialize the player after DOM is ready
+     * This ensures all elements are available
+     */
+    init() {
+        this.isMobile = window.innerWidth <= 768;
         this.initializeElements();
         this.updatePlaylist();
         this.setupEventListeners();
         this.loadSong(this.currentSongIndex);
-        this.setupMediaSession();
+        
+        // Setup media session for background playback
+        if ('mediaSession' in navigator) {
+            this.setupMediaSession();
+        }
+        
+        // Pre-load next song for smooth transition
+        if (this.songs.length > 1) {
+            const nextSongIndex = (this.currentSongIndex + 1) % this.songs.length;
+            const preloadAudio = new Audio();
+            preloadAudio.preload = 'metadata';
+            preloadAudio.src = this.songs[nextSongIndex].path;
+        }
     }
 
-    setupResponsiveDesign() {
-        this.isMobile = window.innerWidth <= 768;
-        // Responsive design is handled by CSS
-    }
-
+    /**
+     * Cache DOM elements to avoid repeated DOM queries
+     */
     initializeElements() {
         // Player elements
         this.albumArt = document.getElementById('albumArt');
@@ -38,7 +60,7 @@ class MusicPlayer {
         this.progressBar = document.querySelector('.progress');
         this.progressArea = document.querySelector('.progress-bar');
         
-        // Control buttons - only necessary buttons
+        // Control buttons - only necessary ones
         this.playBtn = document.getElementById('play');
         this.prevBtn = document.getElementById('prev');
         this.nextBtn = document.getElementById('next');
@@ -52,93 +74,174 @@ class MusicPlayer {
         // Playlist
         this.playlistContainer = document.querySelector('.playlist-container');
         this.playlistItems = document.getElementById('playlistItems');
-        this.visualizerElement = document.querySelector('.visualization');
+        
+        // Visualization - simplified for better performance
         this.waveElements = document.querySelectorAll('.wave');
-
-        // Setup volume slider value
-        this.volumeSlider.value = 100;
+        
+        // Set initial volume from slider
+        this.setVolume(this.volumeSlider.value);
     }
 
+    /**
+     * Create and populate playlist items
+     */
     updatePlaylist() {
+        // Clear existing items
         this.playlistItems.innerHTML = '';
         
+        // Create playlist items with event delegation for better performance
+        const fragment = document.createDocumentFragment();
+        
         this.songs.forEach((song, index) => {
-            let li = document.createElement('li');
-            li.textContent = `${song.title} - ${song.artist}`;
+            const li = document.createElement('li');
+            li.textContent = `${song.title}`;
             li.dataset.index = index;
             
             if (index === this.currentSongIndex) {
                 li.classList.add('active');
             }
             
-            li.addEventListener('click', () => {
-                this.currentSongIndex = parseInt(li.dataset.index);
-                this.loadSong(this.currentSongIndex);
-                this.playAudio();
-            });
-            
-            this.playlistItems.appendChild(li);
+            fragment.appendChild(li);
         });
+        
+        this.playlistItems.appendChild(fragment);
     }
 
+    /**
+     * Set up event listeners with performance optimizations
+     */
     setupEventListeners() {
-        // Playback control events
+        // Audio events - throttled for better performance
+        let lastUpdateTime = 0;
+        this.audio.addEventListener('timeupdate', () => {
+            const now = Date.now();
+            if (now - lastUpdateTime > 250) { // Update every 250ms
+                lastUpdateTime = now;
+                this.updateProgress();
+            }
+        });
+        
+        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+        this.audio.addEventListener('ended', () => this.handleSongEnd());
+        
+        // Control buttons
         this.playBtn.addEventListener('click', () => this.togglePlay());
         this.prevBtn.addEventListener('click', () => this.prevSong());
         this.nextBtn.addEventListener('click', () => this.nextSong());
         this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
         this.repeatBtn.addEventListener('click', () => this.toggleRepeat());
-        
-        // Extra controls events
         this.volumeBtn.addEventListener('click', () => this.toggleMute());
-        this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+        
+        // Use input event for continuous updates
+        this.volumeSlider.addEventListener('input', () => this.setVolume(this.volumeSlider.value));
         this.playlistBtn.addEventListener('click', () => this.togglePlaylist());
-        this.heartBtn.addEventListener('click', (e) => {
-            e.currentTarget.classList.add('heart-clicked');
-            setTimeout(() => e.currentTarget.classList.remove('heart-clicked'), 1000);
+        
+        // Progress bar
+        this.progressArea.addEventListener('click', (e) => this.setProgress(e));
+        
+        // Heart animation
+        this.heartBtn.addEventListener('click', () => {
+            this.heartBtn.classList.add('heart-clicked');
+            setTimeout(() => this.heartBtn.classList.remove('heart-clicked'), 1000);
         });
         
-        // Progress bar events
-        this.progressArea.addEventListener('click', (e) => this.setProgress(e));
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.audio.addEventListener('ended', () => this.handleSongEnd());
-        this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
+        // Use event delegation for playlist clicks (more efficient)
+        this.playlistItems.addEventListener('click', (e) => {
+            const li = e.target.closest('li');
+            if (li) {
+                const index = parseInt(li.dataset.index);
+                if (!isNaN(index)) {
+                    this.currentSongIndex = index;
+                    this.loadSong(index);
+                    this.playAudio();
+                }
+            }
+        });
         
-        // Window events
-        window.addEventListener('keydown', (e) => this.handleKeyboard(e));
-        document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
-        window.addEventListener('resize', () => this.setupResponsiveDesign());
+        // Keyboard controls - with passive option for better performance
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e), {passive: false});
+        
+        // Handle background playback
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && this.isPlaying) {
+                // Resume audio context if needed (auto-play policy handling)
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+            }
+        });
+        
+        // Window resize - throttled
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            if (resizeTimeout) clearTimeout(resizeTimeout);
+            
+            resizeTimeout = setTimeout(() => {
+                this.isMobile = window.innerWidth <= 768;
+                
+                // Update playlist visibility based on device
+                if (this.isMobile) {
+                    // Hide playlist by default on mobile
+                    this.playlistContainer.style.display = 'none';
+                } else {
+                    // Always show playlist on desktop
+                    this.playlistContainer.style.display = 'block';
+                }
+            }, 250);
+        });
     }
 
+    /**
+     * Load a song by index
+     */
     loadSong(index) {
-        if (!this.songs.length || index < 0 || index >= this.songs.length) return;
+        if (!this.songs[index]) return;
         
         const song = this.songs[index];
-        this.currentSongIndex = index;
         
-        // Update audio source
-        this.audio.src = song.path;
-        this.audio.load();
-        
-        // Update player UI
-        this.albumArt.src = song.cover || 'https://knarlix.github.io/images/janvi/logo.png';
+        // Update UI elements
+        this.albumArt.src = song.cover || 'placeholder.png';
         this.songTitle.textContent = song.title;
         this.artistName.textContent = song.artist;
         
+        // Set audio source
+        this.audio.src = song.path;
+        this.audio.load(); // Ensure media is loaded
+        
         // Update active playlist item
-        const playlistItems = this.playlistItems.querySelectorAll('li');
-        playlistItems.forEach((item, i) => {
-            if (i === index) {
+        this.updateActivePlaylistItem(index);
+        
+        // Update media session
+        if ('mediaSession' in navigator) {
+            this.updateMediaSessionMetadata();
+        }
+        
+        // Preload next song for smooth transitions
+        if (this.songs.length > 1) {
+            const nextIndex = (index + 1) % this.songs.length;
+            const preloadAudio = new Audio();
+            preloadAudio.preload = 'metadata';
+            preloadAudio.src = this.songs[nextIndex].path;
+        }
+    }
+    
+    /**
+     * Update active playlist item
+     */
+    updateActivePlaylistItem(activeIndex) {
+        const items = this.playlistItems.querySelectorAll('li');
+        items.forEach((item, i) => {
+            if (i === activeIndex) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');
             }
         });
-        
-        // Update media session metadata
-        this.updateMediaSessionMetadata();
     }
 
+    /**
+     * Toggle play/pause
+     */
     togglePlay() {
         if (this.isPlaying) {
             this.pauseAudio();
@@ -147,42 +250,65 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Play audio with optimizations
+     */
     playAudio() {
-        this.audio.play();
-        this.isPlaying = true;
-        this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        this.albumArt.classList.add('rotating');
-        this.updateMediaSessionPlaybackState('playing');
+        // Handle autoplay restrictions
+        const playPromise = this.audio.play();
         
-        // Change to faster heart beating animation
-        const heartElement = document.querySelector('.heart');
-        heartElement.classList.remove('slow-beating');
-        heartElement.classList.add('beating');
-        
-        // Start visualizer if enabled
-        if (this.isEqualizerOn) {
-            this.startVisualizer();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                this.isPlaying = true;
+                this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                this.albumArt.classList.add('rotating');
+                
+                // Update heart animation
+                const heartElement = this.heartBtn;
+                heartElement.classList.remove('slow-beating');
+                heartElement.classList.add('beating');
+                
+                // Update media session state
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'playing';
+                }
+                
+                // Start simple visualization
+                this.animateWaves(true);
+            }).catch(error => {
+                console.log('Autoplay prevented:', error);
+                // Show play button since autoplay was prevented
+                this.pauseAudio();
+            });
         }
     }
 
+    /**
+     * Pause audio
+     */
     pauseAudio() {
         this.audio.pause();
         this.isPlaying = false;
         this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
         this.albumArt.classList.remove('rotating');
-        this.updateMediaSessionPlaybackState('paused');
         
-        // Change back to slow heart beating animation
-        const heartElement = document.querySelector('.heart');
+        // Update heart animation
+        const heartElement = this.heartBtn;
         heartElement.classList.remove('beating');
         heartElement.classList.add('slow-beating');
         
-        // Stop visualizer
-        if (this.isEqualizerOn) {
-            this.stopVisualizer();
+        // Update media session
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = 'paused';
         }
+        
+        // Stop visualization
+        this.animateWaves(false);
     }
 
+    /**
+     * Play previous song
+     */
     prevSong() {
         if (this.isShuffleOn) {
             this.playRandomSong();
@@ -196,6 +322,9 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Play next song
+     */
     nextSong() {
         if (this.isShuffleOn) {
             this.playRandomSong();
@@ -209,16 +338,25 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Toggle shuffle mode
+     */
     toggleShuffle() {
         this.isShuffleOn = !this.isShuffleOn;
         this.shuffleBtn.classList.toggle('active', this.isShuffleOn);
     }
 
+    /**
+     * Toggle repeat mode
+     */
     toggleRepeat() {
         this.isRepeatOn = !this.isRepeatOn;
         this.repeatBtn.classList.toggle('active', this.isRepeatOn);
     }
 
+    /**
+     * Set volume level
+     */
     setVolume(value) {
         const volume = value / 100;
         this.audio.volume = volume;
@@ -236,6 +374,9 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Toggle mute
+     */
     toggleMute() {
         if (this.isMuted) {
             this.volumeSlider.value = 100;
@@ -246,30 +387,41 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Update progress bar
+     */
     updateProgress() {
         const { currentTime, duration } = this.audio;
+        if (isNaN(duration)) return;
+        
         const progressPercent = (currentTime / duration) * 100;
         this.progressBar.style.width = `${progressPercent}%`;
         this.currentTimeElement.textContent = this.formatTime(currentTime);
-        
-        // Update visualizer if enabled
-        if (this.isEqualizerOn && this.analyzer) {
-            this.updateVisualizer();
-        }
     }
 
+    /**
+     * Set progress on click
+     */
     setProgress(e) {
         const width = this.progressArea.clientWidth;
         const clickX = e.offsetX;
         const duration = this.audio.duration;
         
-        this.audio.currentTime = (clickX / width) * duration;
+        if (!isNaN(duration)) {
+            this.audio.currentTime = (clickX / width) * duration;
+        }
     }
 
+    /**
+     * Update duration display
+     */
     updateDuration() {
         this.durationElement.textContent = this.formatTime(this.audio.duration);
     }
 
+    /**
+     * Format time in mm:ss
+     */
     formatTime(seconds) {
         if (isNaN(seconds)) return '0:00';
         
@@ -278,6 +430,9 @@ class MusicPlayer {
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
+    /**
+     * Handle song end
+     */
     handleSongEnd() {
         if (this.isRepeatOn) {
             this.audio.currentTime = 0;
@@ -289,11 +444,19 @@ class MusicPlayer {
         }
     }
 
+    /**
+     * Play a random song
+     */
     playRandomSong() {
+        if (this.songs.length <= 1) {
+            this.loadSong(0);
+            return;
+        }
+        
         let randomIndex;
         do {
             randomIndex = Math.floor(Math.random() * this.songs.length);
-        } while (randomIndex === this.currentSongIndex && this.songs.length > 1);
+        } while (randomIndex === this.currentSongIndex);
         
         this.currentSongIndex = randomIndex;
         this.loadSong(this.currentSongIndex);
@@ -303,61 +466,31 @@ class MusicPlayer {
         }
     }
 
-    toggleSpeed() {
-        const speeds = [1, 1.25, 1.5, 0.75, 1];
-        const currentIndex = speeds.indexOf(this.playbackSpeed);
-        const nextIndex = (currentIndex + 1) % speeds.length;
-        
-        this.playbackSpeed = speeds[nextIndex];
-        this.audio.playbackRate = this.playbackSpeed;
-        this.speedBtn.textContent = `${this.playbackSpeed}x`;
-    }
-
-    toggleEqualizer() {
-        this.isEqualizerOn = !this.isEqualizerOn;
-        this.equalizerBtn.classList.toggle('active', this.isEqualizerOn);
-        this.visualizerElement.classList.toggle('equalizer-on', this.isEqualizerOn);
-        
-        if (this.isEqualizerOn) {
-            if (this.isPlaying) {
-                this.startVisualizer();
-            }
-        } else {
-            this.stopVisualizer();
-            this.waveElements.forEach(wave => {
-                wave.style.height = '20px';
-            });
-        }
-    }
-
+    /**
+     * Toggle playlist visibility
+     */
     togglePlaylist() {
-        // Check if we're on mobile or desktop
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
+        if (this.isMobile) {
             // On mobile, show/hide the playlist
-            if (this.playlistContainer.style.display === 'block') {
-                this.playlistContainer.style.display = 'none';
-            } else {
-                this.playlistContainer.style.display = 'block';
-            }
+            this.playlistContainer.style.display = 
+                this.playlistContainer.style.display === 'block' ? 'none' : 'block';
         } else {
-            // On desktop, use hidden class
+            // On desktop, we always keep it visible in the layout
+            // Could toggle classes if needed
             this.playlistContainer.classList.toggle('hidden');
         }
     }
 
-    downloadCurrentSong() {
-        const song = this.songs[this.currentSongIndex];
-        const link = document.createElement('a');
-        link.href = song.path;
-        link.download = song.path;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
+    /**
+     * Handle keyboard shortcuts
+     */
     handleKeyboard(e) {
+        // Skip if any modifier keys are pressed or if typing in an input field
+        if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey || 
+            e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            return;
+        }
+        
         switch (e.key) {
             case ' ': // Space
                 e.preventDefault();
@@ -365,11 +498,11 @@ class MusicPlayer {
                 break;
             case 'ArrowLeft': // Left arrow
                 e.preventDefault();
-                this.audio.currentTime -= 5;
+                this.audio.currentTime = Math.max(0, this.audio.currentTime - 5);
                 break;
             case 'ArrowRight': // Right arrow
                 e.preventDefault();
-                this.audio.currentTime += 5;
+                this.audio.currentTime = Math.min(this.audio.duration, this.audio.currentTime + 5);
                 break;
             case 'ArrowUp': // Up arrow
                 e.preventDefault();
@@ -382,106 +515,76 @@ class MusicPlayer {
                 this.setVolume(this.volumeSlider.value);
                 break;
             case 'n': // Next song
+            case 'N':
                 this.nextSong();
                 break;
             case 'p': // Previous song
+            case 'P':
                 this.prevSong();
                 break;
             case 'm': // Mute
+            case 'M':
                 this.toggleMute();
                 break;
             case 's': // Shuffle
+            case 'S':
                 this.toggleShuffle();
                 break;
             case 'r': // Repeat
+            case 'R':
                 this.toggleRepeat();
                 break;
         }
     }
 
-    handleVisibilityChange() {
-        if (document.hidden && this.isPlaying) {
-            // Continue playing when page is not visible
-            // This is for background playback
-        }
-    }
-
+    /**
+     * Setup Media Session API for better integration with OS
+     */
     setupMediaSession() {
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.setActionHandler('play', () => this.playAudio());
-            navigator.mediaSession.setActionHandler('pause', () => this.pauseAudio());
-            navigator.mediaSession.setActionHandler('previoustrack', () => this.prevSong());
-            navigator.mediaSession.setActionHandler('nexttrack', () => this.nextSong());
-            
-            this.updateMediaSessionMetadata();
-        }
+        navigator.mediaSession.setActionHandler('play', () => this.playAudio());
+        navigator.mediaSession.setActionHandler('pause', () => this.pauseAudio());
+        navigator.mediaSession.setActionHandler('previoustrack', () => this.prevSong());
+        navigator.mediaSession.setActionHandler('nexttrack', () => this.nextSong());
+        
+        this.updateMediaSessionMetadata();
     }
 
+    /**
+     * Update Media Session metadata
+     */
     updateMediaSessionMetadata() {
-        if ('mediaSession' in navigator && this.songs[this.currentSongIndex]) {
-            const song = this.songs[this.currentSongIndex];
-            
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: 'HeartBeats',
-                artwork: [
-                    { src: song.cover || 'https://knarlix.github.io/images/janvi/logo.png', sizes: '512x512', type: 'image/png' }
-                ]
-            });
-        }
+        if (!this.songs[this.currentSongIndex]) return;
+        
+        const song = this.songs[this.currentSongIndex];
+        
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.title,
+            artist: song.artist,
+            album: 'HeartBeats',
+            artwork: [
+                { src: song.cover || 'placeholder.png', sizes: '512x512', type: 'image/png' }
+            ]
+        });
     }
 
-    updateMediaSessionPlaybackState(state) {
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.playbackState = state;
+    /**
+     * Simple visualization effect (optimized version)
+     */
+    animateWaves(isActive) {
+        if (!this.waveElements || this.waveElements.length === 0) return;
+        
+        if (isActive) {
+            // Add a low-impact animation class instead of manipulating each wave
+            document.querySelector('.visualization').classList.add('equalizer-on');
+        } else {
+            document.querySelector('.visualization').classList.remove('equalizer-on');
         }
-    }
-
-    startVisualizer() {
-        if (!this.audioContext) {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            this.analyzer = this.audioContext.createAnalyser();
-            
-            // Connect audio to the analyzer
-            const source = this.audioContext.createMediaElementSource(this.audio);
-            source.connect(this.analyzer);
-            this.analyzer.connect(this.audioContext.destination);
-            
-            // Setup analyzer
-            this.analyzer.fftSize = 64;
-            this.bufferLength = this.analyzer.frequencyBinCount;
-            this.dataArray = new Uint8Array(this.bufferLength);
-        }
-        
-        this.visualizerRunning = true;
-        this.updateVisualizer();
-    }
-
-    stopVisualizer() {
-        this.visualizerRunning = false;
-    }
-
-    updateVisualizer() {
-        if (!this.visualizerRunning) return;
-        
-        this.analyzer.getByteFrequencyData(this.dataArray);
-        
-        // Update wave heights based on frequency data
-        const waveCount = this.waveElements.length;
-        const step = Math.floor(this.bufferLength / waveCount);
-        
-        for (let i = 0; i < waveCount; i++) {
-            const frequency = this.dataArray[i * step];
-            const height = Math.max(5, (frequency / 255) * 40); // Scale height between 5px and 40px
-            this.waveElements[i].style.height = `${height}px`;
-        }
-        
-        requestAnimationFrame(() => this.updateVisualizer());
     }
 }
 
-// Create and initialize the music player when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    const player = new MusicPlayer();
-});
+// Initialize player using DOMContentLoaded or directly if DOM is already loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new MusicPlayer());
+} else {
+    new MusicPlayer();
+}

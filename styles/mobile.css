@@ -1,200 +1,378 @@
 /* 
  * Mobile-specific CSS for HeartBeats Music Player
  * Created by KnarliX - Music Player for Personal Songs
- * Optimized for mobile devices
+ * Optimized for mobile devices and low bandwidth
  */
 
 @import url('main.css');
 
 body {
-    background: linear-gradient(135deg, #4A148C, #7B1FA2, #9C27B0);
+    background: #4A148C; /* Solid color is faster than gradient */
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
 }
 
 .music-player {
-    width: 95%;
-    max-width: 450px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    padding: 1.5rem;
-    min-height: 650px;
+    width: 100%;
+    height: 100vh; 
+    max-width: 100%;
+    background: linear-gradient(180deg, rgba(74, 20, 140, 0.95) 0%, rgba(32, 32, 32, 0.9) 100%);
+    border-radius: 0;
+    padding: 1rem;
+    margin: 0;
+    overflow: hidden;
+    box-shadow: none;
+    border: none;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Top content with album art and song info */
 .top-content {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding-top: 1rem;
 }
 
 .player-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
 }
 
 .player-header h1 {
-    font-size: 2rem;
-    letter-spacing: 2px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
+    text-transform: uppercase;
 }
 
 .player-header h1::after {
-    width: 70px;
-    height: 3px;
-    bottom: -10px;
-}
-
-.album-art {
-    width: 220px;
-    height: 220px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    display: none; /* Remove decorative elements to simplify */
 }
 
 .visualization {
-    height: 40px;
+    height: 30px;
+    margin: 0.5rem 0;
 }
 
 .wave {
-    width: 4px;
+    width: 3px;
+    height: 15px !important;
+    margin: 0 2px;
+}
+
+.album-art {
+    width: 230px;
+    height: 230px;
+    margin: 0.5rem auto 1rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Remove hover effects on mobile (improve performance) */
+.album-art:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .song-info {
-    margin-bottom: 1.2rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
 }
 
 .song-info h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.song-info h2:after {
+    display: none; /* Remove decorative elements */
 }
 
 .song-info p {
     font-size: 1rem;
+    margin: 0;
+    opacity: 0.8;
+    font-weight: 400;
 }
 
 .progress-area {
     width: 100%;
     margin-bottom: 1rem;
+    padding: 0 0.5rem;
 }
 
 .progress-bar {
-    height: 5px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
+.progress {
+    height: 100%;
+    background: #9C27B0;
+    border-radius: 4px;
+}
+
+/* Remove the circle handle for better performance */
 .progress::after {
-    width: 10px;
-    height: 10px;
+    display: none;
 }
 
 .time {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    margin-top: 0.3rem;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* Bottom controls with buttons */
 .bottom-controls {
+    width: 100%;
+    padding: 1rem 0.5rem;
     margin-top: auto;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .controls {
-    gap: 0.8rem;
-    margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0 1rem;
 }
 
 .control-btn {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove hover effects and animations to improve performance */
+.control-btn::before {
+    display: none;
 }
 
 .play-btn {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
+    background: #9C27B0;
+    box-shadow: 0 2px 10px rgba(156, 39, 176, 0.3);
 }
 
 .extra-controls {
-    flex-wrap: wrap;
+    width: 100%;
+    display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.8rem;
+    margin-bottom: 0.5rem;
 }
 
 #volumeSlider {
     width: 80px;
+    height: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    outline: none;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #9C27B0;
+    border-radius: 50%;
 }
 
 /* Playlist styling for mobile */
 .playlist-container {
-    max-height: 200px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
     padding: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 12px;
+    margin-top: 0.5rem;
+    max-height: 180px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
     display: none; /* Hide playlist by default on mobile */
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .playlist-container h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+#playlistItems {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
 #playlistItems li {
-    padding: 0.7rem;
-    margin: 0.5rem 0;
+    padding: 0.7rem 0.8rem;
+    margin: 0.4rem 0;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
     font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    border-left: 3px solid transparent;
+}
+
+#playlistItems li.active {
+    background: rgba(156, 39, 176, 0.2);
+    border-left: 3px solid #9C27B0;
+}
+
+#playlistItems li:active {
+    background: rgba(156, 39, 176, 0.3);
 }
 
 /* Other mobile-specific styles */
 .heart {
-    top: 10px;
-    right: 10px;
-    font-size: 1.2rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.3rem;
+    color: #ff4081;
+    z-index: 10;
 }
 
 .copyright {
-    margin-top: 1rem;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    opacity: 0.6;
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+    width: 100%;
 }
 
-/* Make controls more touch-friendly */
+.copyright p {
+    margin: 0.1rem 0;
+}
+
+/* Optimize for touch */
 .control-btn:active {
-    transform: scale(0.9);
-    background-color: rgba(156, 39, 176, 0.3);
+    opacity: 0.7;
+    transform: scale(0.95);
 }
 
-/* Custom scrollbar for mobile */
+/* Optimized scrollbar */
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
 }
 
-/* Mobile media queries */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(156, 39, 176, 0.5);
+    border-radius: 3px;
+}
+
+/* Mobile-specific optimizations for different screen sizes */
 @media (max-height: 700px) {
-    .music-player {
-        padding: 1rem;
-        min-height: 570px;
-    }
-    
     .album-art {
         width: 180px;
         height: 180px;
-        margin-bottom: 1rem;
-    }
-    
-    .player-header h1 {
-        font-size: 1.8rem;
     }
     
     .song-info h2 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
     
     .control-btn {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
     }
     
     .play-btn {
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
     }
+    
+    .player-header h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-height: 600px) {
+    .visualization {
+        display: none;
+    }
+    
+    .album-art {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .player-header h1 {
+        font-size: 1.4rem;
+    }
+}
+
+/* Loading optimization */
+.music-player *:not(.album-art, .control-btn, .play-btn, #volumeSlider, .progress, .progress-bar) {
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.album-art, .control-btn, .play-btn, #volumeSlider, .progress-bar {
+    opacity: 1;
 }
