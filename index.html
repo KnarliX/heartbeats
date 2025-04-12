@@ -118,9 +118,13 @@
         
         <!-- Copyright notice -->
         <div class="copyright">
-            <p>© 2025 KnarliX - All Rights Reserved</p>
+            <p>© <span id="current-year">2025</span> KnarliX - All Rights Reserved</p>
             <p class="small-text">Music content is personal and not for redistribution</p>
         </div>
+        <script>
+            // Set copyright year dynamically
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        </script>
     </div>
     
     <!-- Scripts -->

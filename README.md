@@ -55,4 +55,4 @@ This project is licensed under a custom MIT license - see the [LICENSE](LICENSE)
 ## Credits
 
 Developed by KnarliX 
-© 2025 KnarliX - All Rights Reserved
+© 2023-Present KnarliX - All Rights Reserved
