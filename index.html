@@ -53,27 +53,21 @@
     <div class="music-player">
         <div class="heart slow-beating"><i class="fas fa-heart"></i></div>
         
-        <!-- Top Content Section -->
+        <!-- Header Section - Stays at the top -->
+        <div class="player-header">
+            <h1>HEARTBEATS</h1>
+            <p>Music Player</p>
+        </div>
+        
+        <!-- Main Content - Album art and song info -->
         <div class="top-content">
-            <div class="player-header">
-                <h1>HeartBeats</h1>
-                <div class="visualization">
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                </div>
-            </div>
-
             <div class="album-art">
-                <!-- Loading attribute for better performance -->
                 <img id="albumArt" src="placeholder.png" alt="Album Art" loading="eager">
             </div>
             
             <div class="song-info">
-                <h2 id="songTitle">Loading...</h2>
-                <p id="artistName">Please wait</p>
+                <h2 id="songTitle">Zaroor</h2>
+                <p id="artistName">My Love</p>
             </div>
             
             <div class="progress-area">
@@ -82,51 +76,64 @@
                 </div>
                 <div class="time">
                     <span id="currentTime">0:00</span>
-                    <span id="duration">0:00</span>
+                    <span id="duration">0:59</span>
                 </div>
+            </div>
+            
+            <!-- Visualization moved below progress bar -->
+            <div class="visualization">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
             </div>
         </div>
         
-        <!-- Bottom Controls Section -->
+        <!-- Controls Section - At the bottom -->
         <div class="bottom-controls">
-            <div class="playlist-container">
-                <h3>Playlist</h3>
-                <ul id="playlistItems"></ul>
-            </div>
-            
+            <!-- Main control buttons -->
             <div class="controls">
                 <button id="shuffle" class="control-btn" title="Shuffle" aria-label="Shuffle">
                     <i class="fas fa-random"></i>
                 </button>
                 <button id="prev" class="control-btn" title="Previous Song" aria-label="Previous Song">
-                    <i class="fas fa-backward"></i>
+                    <i class="fas fa-step-backward"></i>
                 </button>
                 <button id="play" class="control-btn play-btn" title="Play/Pause" aria-label="Play or Pause">
                     <i class="fas fa-play"></i>
                 </button>
                 <button id="next" class="control-btn" title="Next Song" aria-label="Next Song">
-                    <i class="fas fa-forward"></i>
+                    <i class="fas fa-step-forward"></i>
                 </button>
                 <button id="repeat" class="control-btn" title="Repeat" aria-label="Repeat">
-                    <i class="fas fa-redo"></i>
+                    <i class="fas fa-redo-alt"></i>
                 </button>
             </div>
 
+            <!-- Extra controls - volume and playlist -->
             <div class="extra-controls">
                 <button id="volume" class="control-btn" title="Volume" aria-label="Volume">
                     <i class="fas fa-volume-up"></i>
                 </button>
-                <input type="range" id="volumeSlider" min="0" max="100" value="100" title="Volume Control" aria-label="Volume Control">
+                <input type="range" id="volumeSlider" min="0" max="100" value="80" title="Volume Control" aria-label="Volume Control">
                 <button id="playlist" class="control-btn" title="Show/Hide Playlist" aria-label="Toggle Playlist">
-                    <i class="fas fa-list"></i>
+                    <i class="fas fa-list-ul"></i>
                 </button>
             </div>
+        </div>
+        
+        <!-- Playlist container - appears from bottom -->
+        <div class="playlist-container">
+            <h3>Playlist</h3>
+            <ul id="playlistItems"></ul>
         </div>
         
         <!-- Copyright notice -->
         <div class="copyright">
             <p>© <span id="current-year">2025</span> KnarliX - All Rights Reserved</p>
-            <p class="small-text">Music content is personal and not for redistribution</p>
         </div>
     </div>
     

@@ -1,19 +1,18 @@
 /* 
  * Mobile-specific CSS for HeartBeats Music Player
- * Created by KnarliX - Music Player for Personal Songs
  * Optimized for mobile devices and low bandwidth
  */
 
 @import url('main.css');
 
 body {
-    background: #4A148C; /* Solid color is faster than gradient */
+    background: #4A148C; /* Solid purple background */
     padding: 0;
     margin: 0;
     overflow-x: hidden;
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
-    will-change: transform; /* Performance optimization */
+    will-change: transform;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -21,7 +20,7 @@ body {
     width: 100%;
     height: 100vh; 
     max-width: 100%;
-    background: linear-gradient(180deg, rgba(74, 20, 140, 0.95) 0%, rgba(32, 32, 32, 0.9) 100%);
+    background: linear-gradient(180deg, #4A148C 0%, #2e0d57 100%); /* Pure purple gradient */
     border-radius: 0;
     padding: 0;
     margin: 0;
@@ -31,97 +30,95 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     position: relative;
 }
 
-/* Top content with album art and info first */
+/* Header section with title */
+.player-header {
+    width: 100%;
+    text-align: center;
+    padding-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.player-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    color: white;
+}
+
+.player-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin: 0.2rem 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Album and song info section - centered in the player */
 .top-content {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 1rem;
-    order: 1; /* Changed order to appear first */
-    flex: 0 0 auto; /* Don't let it grow too big */
-}
-
-.player-header {
-    margin-bottom: 0.5rem;
-    width: 100%;
-    text-align: center;
-}
-
-.player-header h1 {
-    font-size: 1.5rem; /* Slightly smaller */
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin: 0 0 0.3rem 0;
-    padding: 0;
-    text-transform: uppercase;
-}
-
-.visualization {
-    height: 30px;
-    margin: 0.5rem 0;
-    display: flex;
     justify-content: center;
-    gap: 3px;
-}
-
-.wave {
-    width: 3px;
-    height: 15px !important;
-    margin: 0 2px;
-    transform: translateZ(0); /* Hardware acceleration */
+    padding: 0 1.5rem;
+    flex: 1;
 }
 
 .album-art {
-    width: 170px; /* Slightly smaller for better layout */
-    height: 170px;
-    margin: 0.5rem auto 0.5rem;
+    width: 230px;
+    height: 230px;
+    margin: 0 auto 1.5rem;
     border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     border: 3px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
 }
 
 .album-art img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    will-change: transform; /* Performance optimization */
+    will-change: transform;
 }
 
 .song-info {
     width: 100%;
-    margin-bottom: 0.5rem;
-    padding: 0 0.5rem;
+    margin-bottom: 1.5rem;
     text-align: center;
 }
 
 .song-info h2 {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     font-weight: 600;
-    margin: 0 0 0.2rem 0;
+    margin: 0 0 0.3rem 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    color: white;
 }
 
 .song-info p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin: 0;
     opacity: 0.8;
     font-weight: 400;
+    color: white;
 }
 
+/* Progress section */
 .progress-area {
     width: 100%;
-    margin-bottom: 0.5rem;
-    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0;
 }
 
 .progress-bar {
@@ -135,26 +132,24 @@ body {
     height: 100%;
     background: #9C27B0;
     border-radius: 4px;
-    transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
 }
 
 .time {
-    font-size: 0.7rem;
-    margin-top: 0.3rem;
-    color: rgba(255, 255, 255, 0.7);
     display: flex;
     justify-content: space-between;
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-/* Controls in the middle */
+/* Controls section - at the bottom */
 .bottom-controls {
     width: 100%;
-    padding: 0.5rem 1rem 1rem;
-    order: 2; /* Changed order to appear in the middle */
+    padding: 1rem 1.5rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 0 0 auto; /* Don't let it grow */
 }
 
 .controls {
@@ -162,16 +157,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    margin: 0.5rem 0;
-    will-change: transform; /* Performance optimization */
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 
 .control-btn {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -180,31 +174,30 @@ body {
     font-size: 1rem;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
 }
 
 .play-btn {
     width: 60px;
     height: 60px;
     background: #9C27B0;
-    box-shadow: 0 2px 10px rgba(156, 39, 176, 0.3);
+    box-shadow: 0 0 20px rgba(156, 39, 176, 0.4);
 }
 
 .extra-controls {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 0.8rem;
-    margin-top: 0.3rem;
 }
 
 #volumeSlider {
-    width: 80px;
+    width: 100px;
     height: 3px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     outline: none;
 }
@@ -218,25 +211,17 @@ body {
     border-radius: 50%;
 }
 
-/* Empty space to push playlist button to bottom */
-.space-filler {
-    flex: 1 1 auto;
-    min-height: 10px;
-}
-
-/* Playlist styling for mobile - moved to bottom */
+/* Playlist styling for mobile */
 .playlist-container {
     width: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px 10px 0 0;
-    padding: 1rem;
-    max-height: 40vh; /* Use percentage of viewport height */
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem;
+    max-height: 50vh;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
-    display: none; /* Hide playlist by default on mobile */
-    box-shadow: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    order: 3; /* Changed to appear last */
+    -webkit-overflow-scrolling: touch;
+    display: none;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -244,8 +229,8 @@ body {
 }
 
 .playlist-container h3 {
-    font-size: 1rem;
-    margin-bottom: 0.7rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
     color: white;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -259,12 +244,12 @@ body {
 }
 
 #playlistItems li {
-    padding: 0.7rem 0.8rem;
-    margin: 0.4rem 0;
-    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     color: white;
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
@@ -280,79 +265,79 @@ body {
 
 #playlistItems li:active {
     background: rgba(156, 39, 176, 0.3);
-    transform: scale(0.99); /* Subtle touch feedback */
+    transform: scale(0.98);
 }
 
-/* Playlist button at bottom for easy access */
-.playlist-button-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 0.5rem;
-    order: 3;
-    margin-top: auto; /* Push to bottom */
-    margin-bottom: 1rem;
-}
-
-/* Other mobile-specific styles */
+/* Heart beat animation */
 .heart {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.3rem;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
     color: #ff4081;
     z-index: 10;
-    transform: translateZ(0); /* Hardware acceleration */
+    filter: drop-shadow(0 0 5px rgba(255, 64, 129, 0.3));
 }
 
+/* Copyright footer */
 .copyright {
     font-size: 0.65rem;
     opacity: 0.6;
     text-align: center;
-    padding: 0.3rem 0;
+    padding: 0.5rem 0;
     width: 100%;
-    margin-top: 0.5rem;
-    order: 4;
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0;
 }
 
-/* Optimize for touch */
+/* Touch optimizations */
 .control-btn:active {
     opacity: 0.7;
     transform: scale(0.95);
 }
 
-/* Optimized scrollbar */
-::-webkit-scrollbar {
-    width: 3px;
+/* Visualizer waves */
+.visualization {
+    height: 40px;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
 }
 
-::-webkit-scrollbar-track {
-    background: transparent;
+.wave {
+    width: 4px;
+    height: 15px;
+    margin: 0 2px;
+    background: rgba(156, 39, 176, 0.7);
+    border-radius: 2px;
+    transform: translateZ(0);
 }
 
-::-webkit-scrollbar-thumb {
-    background: rgba(156, 39, 176, 0.5);
-    border-radius: 3px;
-}
-
-/* Faster loading/animations */
+/* Performance optimizations */
 * {
-    transition-duration: 0.2s; /* Faster transitions */
+    backface-visibility: hidden;
+    transition-duration: 0.15s;
 }
 
-/* Mobile-specific optimizations for different screen sizes */
+.album-art, .control-btn, .play-btn {
+    will-change: transform;
+}
+
+/* Specific media queries for different device heights */
 @media (max-height: 700px) {
+    .player-header {
+        padding-top: 1.2rem;
+    }
+    
     .album-art {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
     }
     
     .song-info h2 {
-        font-size: 1.2rem;
-    }
-    
-    .song-info p {
-        font-size: 0.8rem;
+        font-size: 1.4rem;
     }
     
     .control-btn {
@@ -364,45 +349,23 @@ body {
         width: 55px;
         height: 55px;
     }
-    
-    .player-header h1 {
-        font-size: 1.3rem;
-    }
 }
 
 @media (max-height: 600px) {
+    .player-header h1 {
+        font-size: 1.5rem;
+    }
+    
     .visualization {
         display: none;
     }
     
     .album-art {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
     }
     
-    .player-header h1 {
-        font-size: 1.2rem;
+    .bottom-controls {
+        padding-bottom: 1rem;
     }
-}
-
-/* Performance optimizations */
-.music-player * {
-    backface-visibility: hidden;
-}
-
-/* Remove fading animations for faster loading */
-.album-art, .control-btn, .play-btn, #volumeSlider, .progress-bar {
-    opacity: 1 !important;
-    will-change: transform;
-    animation: none !important;
-}
-
-/* Fix content during scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Suppress rendering layer creation */
-* {
-    transform: translate3d(0, 0, 0);
 }
