@@ -1,0 +1,21 @@
+{
+  "name": "heartbeats-music-player",
+  "version": "1.0.0",
+  "description": "A beautiful music player for personal love songs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server -p 3000",
+    "start": "http-server -p 3000"
+  },
+  "keywords": [
+    "music",
+    "player",
+    "love",
+    "audio"
+  ],
+  "author": "KnarliX",
+  "license": "MIT",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}

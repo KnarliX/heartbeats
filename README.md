@@ -1,11 +1,13 @@
 # HeartBeats Music Player
 
-A beautiful, responsive music player web application dedicated to songs by Janvi. This player features stunning visuals, animations, and works smoothly on both mobile and desktop devices.
+A beautiful, responsive music player web application dedicated to personal love songs. This player features stunning visuals, animations, and works smoothly on both mobile and desktop devices.
 
 ## Features
 
-- Beautiful responsive UI for both desktop and mobile
-- Customizable playlist
+- Beautiful responsive UI optimized for both desktop and mobile
+- Purple-themed glass morphism design
+- Separate layouts for desktop (playlist on left, player on right) and mobile
+- Customizable playlist for your personal songs
 - Song visualization with wave animations
 - Controls for play/pause, next/previous, shuffle, repeat
 - Volume control and mute option
@@ -37,6 +39,12 @@ A beautiful, responsive music player web application dedicated to songs by Janvi
 2. Add your audio files to the root directory
 3. Update the playlist in `js/songs.js` with your song information
 4. Open `index.html` in a browser or deploy to GitHub Pages
+
+## For Developers
+
+The player will automatically detect the device type and load the appropriate CSS:
+- Desktop: Shows playlist on the left side and music player on the right
+- Mobile: Vertically stacked elements with streamlined controls optimized for touch
 
 ## License
 

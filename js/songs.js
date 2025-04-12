@@ -1,38 +1,45 @@
-// songs.js - A dedicated file for managing the playlist
-// This makes it easier to add, remove, or modify songs
+// Songs playlist configuration for HeartBeats Music Player
+// Songs by my love - Personal Collection
 
-// Define the playlist in global window scope to make it accessible from main.js
-window.songsList = [
+const songs = [
     {
         title: "Zaroor",
-        artist: "Janvi - My Love",
-        url: "Zaroor by my premika.mp3",
-        art: "https://knarlix.github.io/images/janvi/logo.png"
+        artist: "My Love",
+        path: "Zaroor by my premika.mp3",
+        cover: "https://knarlix.github.io/images/janvi/zaroor.jpg"
     },
     {
-        title: "Yaara",
-        artist: "Janvi - My Heartbeat",
-        url: "yarra by jannu.mp3",
-        art: "https://knarlix.github.io/images/janvi/logo.png"
+        title: "Yarra",
+        artist: "My Heartbeat",
+        path: "yarra by jannu.mp3", 
+        cover: "https://knarlix.github.io/images/janvi/yarra.jpg"
     },
     {
         title: "Naina",
-        artist: "Janvi - My Soulmate",
-        url: "naina.mp3",
-        art: "https://knarlix.github.io/images/janvi/logo.png"
+        artist: "My Darling",
+        path: "naina.mp3",
+        cover: "https://knarlix.github.io/images/janvi/naina.jpg"
     },
     {
         title: "Bullya",
-        artist: "Janvi - My Everything",
-        url: "BULLYA.mp3",
-        art: "https://knarlix.github.io/images/janvi/logo.png"
-    },
-    // Add more songs easily by adding new objects here
-    // Format:
-    // {
-    //     title: "Song Name",
-    //     artist: "Janvi - ...",
-    //     url: "filename.mp3",
-    //     art: "https://knarlix.github.io/images/janvi/logo.png"
-    // },
+        artist: "My Sweetheart",
+        path: "BULLYA.mp3",
+        cover: "https://knarlix.github.io/images/janvi/bullya.jpg"
+    }
 ];
+
+// Detect device for responsive design loading
+function loadResponsiveCSS() {
+    const stylesheet = document.getElementById('responsive-stylesheet');
+    if (window.innerWidth <= 768) {
+        stylesheet.href = 'styles/mobile.css';
+    } else {
+        stylesheet.href = 'styles/desktop.css';
+    }
+}
+
+// Load responsive CSS on page load
+document.addEventListener('DOMContentLoaded', loadResponsiveCSS);
+
+// Update responsive CSS on window resize
+window.addEventListener('resize', loadResponsiveCSS);
