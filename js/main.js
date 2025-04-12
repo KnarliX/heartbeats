@@ -593,6 +593,16 @@ class MusicPlayer {
                 this.playlistContainer.style.display = 'none';
             } else {
                 this.playlistContainer.style.display = 'block';
+                
+                // Setup close button (if not already set up)
+                const closeBtn = document.getElementById('playlist-close');
+                if (closeBtn && !closeBtn._hasListener) {
+                    closeBtn.addEventListener('click', () => {
+                        this.playlistContainer.style.display = 'none';
+                    });
+                    closeBtn._hasListener = true;
+                }
+                
                 // Scroll to active item
                 const activeItem = this.playlistItems.querySelector('.active');
                 if (activeItem) {
