@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="logo.png" type="image/png">
+    <title>KnarliX's Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="music-player">
+        <div class="player-header">
+            <h1>My Music Player</h1>
+            <div class="visualization">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+
+        <div class="album-art">
+            <img id="albumArt" src="https://picsum.photos/300/300" alt="Album Art">
+            <div class="overlay">
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+
+        <div class="song-info">
+            <h2 id="songTitle">Song Title</h2>
+            <p id="artistName">Artist Name</p>
+        </div>
+
+        <div class="progress-area">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="time">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="shuffle" class="control-btn">
+                <i class="fas fa-random"></i>
+            </button>
+            <button id="prev" class="control-btn">
+                <i class="fas fa-backward"></i>
+            </button>
+            <button id="play" class="control-btn play-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button id="next" class="control-btn">
+                <i class="fas fa-forward"></i>
+            </button>
+            <button id="repeat" class="control-btn">
+                <i class="fas fa-redo"></i>
+            </button>
+        </div>
+
+        <div class="extra-controls">
+            <button id="volume" class="control-btn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <input type="range" id="volumeSlider" min="0" max="100" value="100">
+            <button id="speed" class="control-btn">1x</button>
+            <button id="equalizer" class="control-btn">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+            <button id="download" class="control-btn">
+                <i class="fas fa-download"></i>
+            </button>
+            <button id="playlist" class="control-btn">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+
+        <div class="playlist-container hidden">
+            <h3>Playlist</h3>
+            <ul id="playlistItems"></ul>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
