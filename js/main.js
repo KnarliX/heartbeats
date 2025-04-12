@@ -36,11 +36,18 @@ class MusicPlayer {
         // Update playlist
         this.updatePlaylist();
         
+        // Initial setup of playlist item click handlers
+        this.setupPlaylistItemsClickHandlers();
+        
         // Setup event listeners
         this.setupEventListeners();
         
         // Load first song
         this.loadSong(this.currentSongIndex);
+        
+        // Set default volume to 100%
+        this.volumeSlider.value = 100;
+        this.setVolume(100);
         
         // Setup media session for background playback
         if ('mediaSession' in navigator) {
@@ -281,18 +288,16 @@ class MusicPlayer {
             setTimeout(() => this.heartBtn.classList.remove('heart-clicked'), 1000);
         });
         
-        // Use event delegation for playlist clicks (more efficient)
-        this.playlistItems.addEventListener('click', (e) => {
-            const li = e.target.closest('li');
-            if (li) {
-                const index = parseInt(li.dataset.index);
-                if (!isNaN(index)) {
-                    this.currentSongIndex = index;
-                    this.loadSong(index);
-                    this.playAudio();
-                }
-            }
-        });
+        // Setup Close button for playlist
+        const closeBtn = document.getElementById('playlist-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.playlistContainer.style.display = 'none';
+            });
+        }
+        
+        // Direct click handlers for playlist items - no event delegation
+        this.setupPlaylistItemsClickHandlers();
         
         // Keyboard controls - with passive option for better performance
         document.addEventListener('keydown', (e) => this.handleKeyboard(e), {passive: false});
@@ -373,6 +378,9 @@ class MusicPlayer {
                 item.classList.remove('active');
             }
         });
+        
+        // After changing active state, refresh click handlers
+        this.setupPlaylistItemsClickHandlers();
     }
 
     /**
@@ -737,6 +745,54 @@ class MusicPlayer {
         } else {
             document.querySelector('.visualization').classList.remove('equalizer-on');
         }
+    }
+    
+    /**
+     * Setup click handlers for each playlist item
+     * Direct handlers for better mobile responsiveness
+     */
+    setupPlaylistItemsClickHandlers() {
+        const items = this.playlistItems.querySelectorAll('li');
+        
+        // Remove any existing click handlers first
+        items.forEach(item => {
+            // Clone and replace to remove all event listeners
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
+        });
+        
+        // Add new click handlers to each item
+        const newItems = this.playlistItems.querySelectorAll('li');
+        newItems.forEach((item, index) => {
+            // Use multiple event handlers for better reliability
+            const clickHandler = () => {
+                console.log('Playlist item clicked:', index);
+                this.currentSongIndex = index;
+                this.loadSong(index);
+                this.playAudio();
+                
+                // Hide playlist after selection on mobile
+                if (this.isMobile) {
+                    setTimeout(() => {
+                        this.playlistContainer.style.display = 'none';
+                    }, 300);
+                }
+            };
+            
+            // Add multiple types of event handlers
+            item.addEventListener('click', clickHandler);
+            item.addEventListener('touchstart', function(e) {
+                // Highlight the item being touched
+                this.style.background = 'rgba(156, 39, 176, 0.5)';
+            });
+            
+            item.addEventListener('touchend', function(e) {
+                // Remove highlight
+                this.style.background = '';
+                clickHandler();
+                e.preventDefault(); // Prevent default to ensure it works
+            });
+        });
     }
 }
 
