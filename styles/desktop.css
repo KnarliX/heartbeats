@@ -184,6 +184,71 @@ body {
     font-size: 0.8rem;
     margin-top: 0.3rem;
 }
+/* Playlist styling for desktop */
+.playlist-container {
+    height: 100%;
+    display: block !important; /* Always show on desktop */
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.playlist-container h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(156, 39, 176, 0.3);
+    padding-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* Hide the X button in the desktop view */
+.playlist-close.mobile-only {
+    display: none;
+}
+
+#playlistItems {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    max-height: calc(100% - 50px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#playlistItems li {
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+#playlistItems li:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+#playlistItems li.active {
+    background: rgba(156, 39, 176, 0.15);
+    border-left: 3px solid #9C27B0;
+    font-weight: 500;
+}
 
 .controls {
     display: flex;
@@ -252,71 +317,6 @@ body {
     cursor: pointer;
 }
 
-/* Playlist styling for desktop */
-.playlist-container {
-    height: 100%;
-    display: block !important; /* Always show on desktop */
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-}
-
-.playlist-container h3 {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 600;
-    border-bottom: 2px solid rgba(156, 39, 176, 0.3);
-    padding-bottom: 0.5rem;
-    text-align: center;
-}
-
-/* Hide the X button in the desktop view */
-.playlist-close.mobile-only {
-    display: none;
-}
-
-#playlistItems {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    max-height: calc(100% - 50px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-#playlistItems li {
-    padding: 0.9rem 1rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
-}
-
-#playlistItems li:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-#playlistItems li.active {
-    background: rgba(156, 39, 176, 0.15);
-    border-left: 3px solid #9C27B0;
-    font-weight: 500;
-}
 
 /* Heart animation for desktop */
 .heart {
