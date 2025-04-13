@@ -39,7 +39,7 @@ body {
     transform: translateZ(0); /* Hardware acceleration */
 }
 
-/* Left side - Player content (was on right before) */
+/* Left side - Player content */
 .top-content {
     grid-column: 1; /* Changed from 2 to 1 */
     display: flex;
@@ -49,11 +49,11 @@ body {
     padding-right: 20px;
 }
 
-/* Right side - Controls (was on left before) */
+/* Right side - Controls */
 .bottom-controls {
     grid-column: 2; /* Changed from 1 to 2 */
-    padding-left: 20px; /* Changed from padding-right */
-    border-left: 1px solid rgba(255, 255, 255, 0.1); /* Changed from border-right */
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -64,7 +64,7 @@ body {
     position: absolute;
     top: 10%;
     bottom: 10%;
-    left: -1px; /* Changed from right */
+    left: -1px;
     width: 1px;
     background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
@@ -87,6 +87,7 @@ body {
     letter-spacing: 2px;
 }
 
+/* Visualization Bar */
 .visualization {
     height: 40px;
     display: flex;
@@ -102,6 +103,7 @@ body {
     transform: translateZ(0); /* Hardware acceleration */
 }
 
+/* Album Art */
 .album-art {
     width: 300px; /* Slightly larger */
     height: 300px;
@@ -119,6 +121,7 @@ body {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
+/* Song Information */
 .song-info {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -136,6 +139,7 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
+/* Progress Bar */
 .progress-area {
     width: 100%;
     max-width: 400px;
@@ -177,79 +181,7 @@ body {
     opacity: 1;
 }
 
-.time {
-    display: flex;
-    justify-content: space-between;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-}
-/* Playlist styling for desktop */
-.playlist-container {
-    height: 100%;
-    display: block !important; /* Always show on desktop */
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-}
-
-.playlist-container h3 {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 600;
-    border-bottom: 2px solid rgba(156, 39, 176, 0.3);
-    padding-bottom: 0.5rem;
-    text-align: center;
-}
-
-/* Hide the X button in the desktop view */
-.playlist-close.mobile-only {
-    display: none;
-}
-
-#playlistItems {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    max-height: calc(100% - 50px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-#playlistItems li {
-    padding: 0.9rem 1rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
-}
-
-#playlistItems li:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
-}
-
-#playlistItems li.active {
-    background: rgba(156, 39, 176, 0.15);
-    border-left: 3px solid #9C27B0;
-    font-weight: 500;
-}
-
+/* Controls Section */
 .controls {
     display: flex;
     justify-content: center;
@@ -290,73 +222,20 @@ body {
     transform: translateY(-3px) scale(1.05);
 }
 
-.extra-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+/* Playlist Section */
+.playlist-container {
+    height: 100%;
+    display: block !important; /* Always show on desktop */
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
-#volumeSlider {
-    width: 100px;
-    height: 4px;
-    -webkit-appearance: none;
-    appearance: none;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    outline: none;
-}
-
-#volumeSlider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #9C27B0;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-
-/* Heart animation for desktop */
-.heart {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-size: 1.5rem;
-    color: #ff4081;
-    cursor: pointer;
-    z-index: 10;
-    filter: drop-shadow(0 0 5px rgba(255, 64, 129, 0.3));
-    transition: all 0.3s ease;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-.heart:hover {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 8px rgba(255, 64, 129, 0.5));
-}
-
-/* Custom scrollbar for desktop */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(156, 39, 176, 0.4);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 39, 176, 0.6);
-}
-
-/* Copyright footer */
+/* Copyright Section */
 .copyright {
     position: absolute;
     bottom: 1rem;
@@ -366,69 +245,4 @@ body {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.6);
     padding: 0.5rem 0;
-}
-
-/* Performance optimizations */
-* {
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    transition-duration: 0.2s; /* Faster transitions */
-}
-
-/* Remove animations for better performance */
-.album-art, .control-btn, .play-btn, #volumeSlider, .progress-bar {
-    will-change: transform;
-    animation: none !important;
-}
-
-/* Fix content during scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Show/hide elements based on mobile/desktop */
-.mobile-only {
-    display: none !important;
-}
-
-.desktop-only {
-    display: block !important;
-}
-
-/* Responsive design for desktop */
-@media (max-width: 1100px) {
-    .music-player {
-        grid-template-columns: 1fr 35%; /* Maintain swapped columns */
-    }
-    
-    .album-art {
-        width: 250px;
-        height: 250px;
-    }
-    
-    .song-info h2 {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 900px) {
-    .music-player {
-        grid-template-columns: 1fr 40%; /* Maintain swapped columns */
-        padding: 1.5rem;
-    }
-    
-    .album-art {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .control-btn {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .play-btn {
-        width: 60px;
-        height: 60px;
-    }
 }
