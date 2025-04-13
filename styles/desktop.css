@@ -66,6 +66,9 @@ body {
     padding-bottom: 0.5rem;
     text-align: center;
 }
+/* Hide the X button in the desktop view */
+ .playlist-close.mobile-only {
+     display: none;
 
 /* Playlist Items Styling */
 #playlistItems {
