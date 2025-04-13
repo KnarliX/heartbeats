@@ -1,313 +1,251 @@
 /* 
  * Desktop-specific CSS for HeartBeats Music Player
- * Created by KnarliX - Music Player for Personal Songs
- * Optimized for larger screens and performance
+ * Optimized for larger screens and high-resolution displays
  */
 
 @import url('main.css');
 
 body {
-    background: linear-gradient(135deg, #4A148C, #7B1FA2);
-    background-attachment: fixed;
+    background: #3E2723; /* Dark brown background */
     padding: 0;
     margin: 0;
-    min-height: 100vh;
     overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    will-change: transform; /* Performance optimization */
-    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
 }
 
 .music-player {
-    width: 90%;
-    max-width: 1000px;
-    background: rgba(30, 20, 40, 0.8);
+    width: 70%; /* Center the player in the middle of the screen */
+    height: 80vh;
+    max-width: 1200px;
+    margin: 5% auto;
+    background: linear-gradient(180deg, #3E2723 0%, #1B0009 100%);
     border-radius: 20px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
     padding: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 30%; /* Swapped order - content left, controls right */
-    grid-gap: 20px;
-    min-height: 600px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(156, 39, 176, 0.2);
-    margin: 20px;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-/* Left side - Player content */
-.top-content {
-    grid-column: 1; /* Changed from 2 to 1 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-right: 20px;
+    justify-content: space-between;
+    position: relative;
 }
 
-/* Right side - Controls */
-.bottom-controls {
-    grid-column: 2; /* Changed from 1 to 2 */
-    padding-left: 20px;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.bottom-controls::before {
-    content: '';
-    position: absolute;
-    top: 10%;
-    bottom: 10%;
-    left: -1px;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
-}
-
+/* Header section with title */
 .player-header {
-    margin-bottom: 1.5rem;
+    width: 100%;
     text-align: center;
-    will-change: transform; /* Performance optimization */
+    margin-bottom: 2rem;
 }
 
 .player-header h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    margin: 0;
-    background: linear-gradient(to right, #fff, #e0e0e0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-transform: uppercase;
     letter-spacing: 2px;
+    text-transform: uppercase;
+    color: white;
 }
 
-/* Visualization Bar */
-.visualization {
-    height: 40px;
+.player-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Album and song info section - centered in the player */
+.top-content {
+    width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 4px;
-    margin: 1rem 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    flex: 1;
 }
 
-.wave {
-    width: 5px;
-    background: linear-gradient(to top, #9C27B0, #4A148C);
-    border-radius: 3px;
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-/* Album Art */
 .album-art {
-    width: 300px; /* Slightly larger */
+    width: 300px;
     height: 300px;
-    margin: 0 auto 2rem;
-    border-radius: 50%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border: 4px solid rgba(156, 39, 176, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Faster transitions */
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    transform: translateZ(0); /* Hardware acceleration */
 }
 
-.album-art:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Song Information */
 .song-info {
-    text-align: center;
-    margin-bottom: 1.5rem;
+    flex: 1;
+    margin-left: 2rem;
+    text-align: left;
 }
 
 .song-info h2 {
     font-size: 2rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #fff;
+    margin-bottom: 1rem;
+    color: white;
 }
 
 .song-info p {
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
+    margin: 0.5rem 0;
+    opacity: 0.8;
+    color: white;
 }
 
-/* Progress Bar */
+/* Progress section */
 .progress-area {
     width: 100%;
-    max-width: 400px;
-    margin: 1rem auto;
+    margin: 2rem 0;
+    padding: 0;
 }
 
 .progress-bar {
     height: 6px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    cursor: pointer;
-    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .progress {
     height: 100%;
-    background: linear-gradient(to right, #4A148C, #9C27B0);
-    border-radius: 3px;
-    position: relative;
-    transform: translateZ(0); /* Hardware acceleration */
+    background: #FF5722;
+    border-radius: 6px;
 }
 
-.progress::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.2s;
+/* Controls section - at the bottom */
+.bottom-controls {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background: linear-gradient(to top, #3E2723, transparent);
 }
 
-.progress-bar:hover .progress::after {
-    opacity: 1;
-}
-
-/* Controls Section */
 .controls {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-    will-change: transform; /* Performance optimization */
+    align-items: center;
+    gap: 2rem;
 }
 
 .control-btn {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    transform: translateZ(0); /* Hardware acceleration */
+    transition: all 0.3s ease;
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
+    background: #FF5722;
 }
 
 .play-btn {
-    width: 64px;
-    height: 64px;
-    background: linear-gradient(45deg, #4A148C, #9C27B0);
-    box-shadow: 0 0 15px rgba(156, 39, 176, 0.5);
+    width: 80px;
+    height: 80px;
+    background: #FF5722;
+    box-shadow: 0 0 30px rgba(255, 87, 34, 0.6);
 }
 
-.play-btn:hover {
-    box-shadow: 0 0 20px rgba(156, 39, 176, 0.7);
-    transform: translateY(-3px) scale(1.05);
-}
-
-/* Playlist Section Repositioning */
+/* Playlist styling for desktop */
 .playlist-container {
-    position: absolute; /* Allow free positioning */
-    top: 20px; /* Move to the top of the screen */
-    right: 20px; /* Move to the right side of the screen */
-    width: 300px; /* Set a specific width for the playlist */
-    height: auto; /* Adjust height dynamically */
-    z-index: 100; /* Ensure it appears above other elements */
-    background: rgba(0, 0, 0, 0.8); /* Slightly transparent background */
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add a shadow for better visibility */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    background: rgba(62, 39, 35, 0.9);
+    border-radius: 10px;
+    padding: 2rem;
+    max-height: 50vh;
+    overflow-y: auto;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    margin-top: 2rem;
 }
 
-/* Adjust Playlist Header */
-.playlist-container h3 {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 600;
-    border-bottom: 2px solid rgba(156, 39, 176, 0.3);
-    padding-bottom: 0.5rem;
-    text-align: center;
-}
-
-/* Playlist Items Styling */
 #playlistItems {
-    list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    max-height: 300px; /* Limit height with scrolling */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    list-style-type: none;
 }
 
-/* Scrollbar customization */
-#playlistItems::-webkit-scrollbar {
-    width: 6px;
-}
-#playlistItems::-webkit-scrollbar-thumb {
-    background: rgba(156, 39, 176, 0.5);
-    border-radius: 10px;
-}
-#playlistItems::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 39, 176, 0.7);
-}
-
-/* Playlist Item Hover and Active State */
 #playlistItems li {
-    padding: 0.9rem 1rem;
-    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin: 1rem 0;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.05);
-    color: #fff;
+    color: white;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 #playlistItems li:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
+    background: rgba(255, 87, 34, 0.3);
 }
 
-#playlistItems li.active {
-    background: rgba(156, 39, 176, 0.15);
-    border-left: 3px solid #9C27B0;
-    font-weight: 500;
+/* Hide mobile-only elements in desktop view */
+.mobile-only {
+    display: none;
 }
 
-/* Copyright Section */
-.copyright {
-    position: absolute;
-    bottom: 1rem;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
-    padding: 0.5rem 0;
+.desktop-only {
+    display: block;
+}
+
+/* Visualizer waves */
+.visualization {
+    height: 60px;
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.wave {
+    width: 6px;
+    height: 25px;
+    background: #FF5722;
+    border-radius: 3px;
+    animation: wave-animation 1s ease-in-out infinite;
+}
+
+/* Keyframes for wave animation */
+@keyframes wave-animation {
+    0%, 100% { height: 15px; }
+    50% { height: 30px; }
+}
+
+/* Responsive adjustments for ultra-wide screens */
+@media (min-width: 1600px) {
+    .music-player {
+        width: 60%;
+        height: 70vh;
+    }
+
+    .album-art {
+        width: 350px;
+        height: 350px;
+    }
+
+    .song-info h2 {
+        font-size: 2.5rem;
+    }
+
+    .song-info p {
+        font-size: 1.5rem;
+    }
 }
