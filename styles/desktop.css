@@ -1,7 +1,6 @@
 /* 
- * Advanced Desktop-Specific CSS for HeartBeats Music Player
- * This file is optimized for larger screens and improves upon the current design.
- * Designed by KnarliX
+ * Enhanced Desktop-Specific CSS for HeartBeats Music Player
+ * Designed for larger screens with a clean and modern aesthetic.
  */
 
 @import url('main.css');
@@ -23,7 +22,7 @@ body {
 .music-player {
     width: 85%;
     max-width: 1200px;
-    background: rgba(30, 20, 40, 0.85);
+    background: rgba(30, 20, 40, 0.9);
     border-radius: 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     display: flex;
