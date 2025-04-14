@@ -806,11 +806,340 @@ class MusicPlayer {
   constructor() {
     // Initialization and setup
   }
+class MusicPlayer {
+    constructor() {
+        // State variables
+        this.currentSongIndex = 0;
+        this.isPlaying = false;
+        this.isShuffleOn = false;
+        this.isRepeatOn = false;
+        this.isMuted = false;
 
-  togglePlaylist() {
-    const playlistContainer = document.querySelector('.playlist-container');
-    playlistContainer.classList.toggle('active');
-  }
+        // Initialize audio and song list
+        this.songs = songs || [];
+        this.audio = new Audio();
 
-  // Other methods remain unchanged
+        // Ensure DOM is ready before initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
+    }
+
+    /**
+     * Initialize the Music Player
+     */
+    init() {
+        this.isMobile = window.innerWidth <= 768;
+
+        // Cache DOM elements for performance
+        this.cacheDOMElements();
+
+        // Setup UI and functionality
+        this.applyPerformanceOptimizations();
+        this.updatePlaylistUI();
+        this.setupEventListeners();
+
+        // Load the first song
+        this.loadSong(this.currentSongIndex);
+
+        // Set default volume
+        this.volumeSlider.value = 100;
+        this.setVolume(100);
+
+        // Media session support for background playback
+        if ('mediaSession' in navigator) {
+            this.setupMediaSession();
+        }
+
+        // Smooth transitions for the next song
+        this.preloadNextSong();
+
+        // Adjust layout based on device type
+        this.updateLayoutForDevice();
+    }
+
+    /**
+     * Cache frequently accessed DOM elements
+     */
+    cacheDOMElements() {
+        // Player elements
+        this.albumArt = document.getElementById('albumArt');
+        this.songTitle = document.getElementById('songTitle');
+        this.artistName = document.getElementById('artistName');
+        this.currentTimeElement = document.getElementById('currentTime');
+        this.durationElement = document.getElementById('duration');
+        this.progressBar = document.querySelector('.progress');
+        this.progressArea = document.querySelector('.progress-bar');
+
+        // Control buttons
+        this.playBtn = document.getElementById('play');
+        this.prevBtn = document.getElementById('prev');
+        this.nextBtn = document.getElementById('next');
+        this.shuffleBtn = document.getElementById('shuffle');
+        this.repeatBtn = document.getElementById('repeat');
+        this.volumeBtn = document.getElementById('volume');
+        this.volumeSlider = document.getElementById('volumeSlider');
+        this.playlistBtn = document.getElementById('playlist');
+        this.heartBtn = document.querySelector('.heart');
+
+        // Playlist
+        this.playlistContainer = document.querySelector('.playlist-container');
+        this.playlistItems = document.getElementById('playlistItems');
+    }
+
+    /**
+     * Optimize the performance of the player
+     */
+    applyPerformanceOptimizations() {
+        // Optimize image loading
+        document.querySelectorAll('img').forEach(img => {
+            img.decoding = 'async';
+            img.loading = 'lazy';
+        });
+
+        // Add hardware acceleration styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .album-art, .control-btn, .progress {
+                transform: translateZ(0);
+                will-change: transform;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    /**
+     * Update the playlist UI
+     */
+    updatePlaylistUI() {
+        this.playlistItems.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+
+        this.songs.forEach((song, index) => {
+            const li = document.createElement('li');
+            li.textContent = song.title;
+            li.dataset.index = index;
+
+            if (index === this.currentSongIndex) {
+                li.classList.add('active');
+            }
+
+            li.addEventListener('click', () => {
+                this.currentSongIndex = index;
+                this.loadSong(index);
+                this.playAudio();
+            });
+
+            fragment.appendChild(li);
+        });
+
+        this.playlistItems.appendChild(fragment);
+    }
+
+    /**
+     * Preload the next song for smooth transitions
+     */
+    preloadNextSong() {
+        if (this.songs.length > 1) {
+            const nextIndex = (this.currentSongIndex + 1) % this.songs.length;
+            const preloadAudio = new Audio();
+            preloadAudio.src = this.songs[nextIndex].path;
+            preloadAudio.preload = 'metadata';
+        }
+    }
+
+    /**
+     * Setup event listeners for UI interactions
+     */
+    setupEventListeners() {
+        // Audio events
+        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.addEventListener('ended', () => this.handleSongEnd());
+
+        // Control buttons
+        this.playBtn.addEventListener('click', () => this.togglePlay());
+        this.prevBtn.addEventListener('click', () => this.prevSong());
+        this.nextBtn.addEventListener('click', () => this.nextSong());
+        this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
+        this.repeatBtn.addEventListener('click', () => this.toggleRepeat());
+        this.volumeSlider.addEventListener('input', () => this.setVolume(this.volumeSlider.value));
+        this.playlistBtn.addEventListener('click', () => this.togglePlaylist());
+
+        // Progress bar click handling
+        this.progressArea.addEventListener('click', e => this.setProgress(e));
+    }
+
+    /**
+     * Load a song by index
+     */
+    loadSong(index) {
+        const song = this.songs[index];
+        if (!song) return;
+
+        this.albumArt.src = song.cover || 'placeholder.png';
+        this.songTitle.textContent = song.title;
+        this.artistName.textContent = song.artist;
+
+        this.audio.src = song.path;
+        this.audio.load();
+
+        this.updateActivePlaylistItem(index);
+    }
+
+    /**
+     * Update the active playlist item
+     */
+    updateActivePlaylistItem(index) {
+        [...this.playlistItems.children].forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+    }
+
+    /**
+     * Toggle play/pause
+     */
+    togglePlay() {
+        this.isPlaying ? this.pauseAudio() : this.playAudio();
+    }
+
+    /**
+     * Play the audio
+     */
+    playAudio() {
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        });
+    }
+
+    /**
+     * Pause the audio
+     */
+    pauseAudio() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.playBtn.innerHTML = '<i class="fas fa-play"></i>';
+    }
+
+    /**
+     * Play the next song
+     */
+    nextSong() {
+        this.currentSongIndex = (this.currentSongIndex + 1) % this.songs.length;
+        this.loadSong(this.currentSongIndex);
+        if (this.isPlaying) this.playAudio();
+    }
+
+    /**
+     * Play the previous song
+     */
+    prevSong() {
+        this.currentSongIndex = (this.currentSongIndex - 1 + this.songs.length) % this.songs.length;
+        this.loadSong(this.currentSongIndex);
+        if (this.isPlaying) this.playAudio();
+    }
+
+    /**
+     * Toggle shuffle mode
+     */
+    toggleShuffle() {
+        this.isShuffleOn = !this.isShuffleOn;
+        this.shuffleBtn.classList.toggle('active', this.isShuffleOn);
+    }
+
+    /**
+     * Toggle repeat mode
+     */
+    toggleRepeat() {
+        this.isRepeatOn = !this.isRepeatOn;
+        this.repeatBtn.classList.toggle('active', this.isRepeatOn);
+    }
+
+    /**
+     * Set the volume level
+     */
+    setVolume(value) {
+        this.audio.volume = value / 100;
+    }
+
+    /**
+     * Update the progress bar
+     */
+    updateProgress() {
+        const { currentTime, duration } = this.audio;
+        if (isNaN(duration)) return;
+
+        this.progressBar.style.width = `${(currentTime / duration) * 100}%`;
+        this.currentTimeElement.textContent = this.formatTime(currentTime);
+    }
+
+    /**
+     * Set audio progress on click
+     */
+    setProgress(e) {
+        const width = this.progressArea.clientWidth;
+        const clickX = e.offsetX;
+        const duration = this.audio.duration;
+
+        this.audio.currentTime = (clickX / width) * duration;
+    }
+
+    /**
+     * Format time to mm:ss
+     */
+    formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    /**
+     * Handle the end of a song
+     */
+    handleSongEnd() {
+        if (this.isRepeatOn) {
+            this.audio.currentTime = 0;
+            this.playAudio();
+        } else if (this.isShuffleOn) {
+            this.shufflePlay();
+        } else {
+            this.nextSong();
+        }
+    }
+
+    /**
+     * Shuffle play a random song
+     */
+    shufflePlay() {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * this.songs.length);
+        } while (randomIndex === this.currentSongIndex);
+
+        this.currentSongIndex = randomIndex;
+        this.loadSong(this.currentSongIndex);
+        if (this.isPlaying) this.playAudio();
+    }
+
+    /**
+     * Toggle playlist visibility
+     */
+    togglePlaylist() {
+        this.playlistContainer.classList.toggle('active');
+    }
+
+    /**
+     * Setup Media Session
+     */
+    setupMediaSession() {
+        navigator.mediaSession.setActionHandler('play', () => this.playAudio());
+        navigator.mediaSession.setActionHandler('pause', () => this.pauseAudio());
+        navigator.mediaSession.setActionHandler('previoustrack', () => this.prevSong());
+        navigator.mediaSession.setActionHandler('nexttrack', () => this.nextSong());
+    }
 }
+
+// Initialize the music player
+document.addEventListener('DOMContentLoaded', () => new MusicPlayer());
