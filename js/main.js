@@ -802,3 +802,15 @@ if (document.readyState === 'loading') {
 } else {
     new MusicPlayer();
 }
+class MusicPlayer {
+  constructor() {
+    // Initialization and setup
+  }
+
+  togglePlaylist() {
+    const playlistContainer = document.querySelector('.playlist-container');
+    playlistContainer.classList.toggle('active');
+  }
+
+  // Other methods remain unchanged
+}
