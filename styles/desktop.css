@@ -1,76 +1,56 @@
 /* 
- * Desktop-specific CSS for HeartBeats Music Player
- * Optimized for larger screens and high-resolution displays
+ * Advanced Desktop-Specific CSS for HeartBeats Music Player
+ * This file is optimized for larger screens and improves upon the current design.
+ * Designed by KnarliX
  */
 
 @import url('main.css');
 
 body {
-    background: #3E2723; /* Dark brown background */
+    background: linear-gradient(135deg, #4A148C, #7B1FA2);
+    background-attachment: fixed;
     padding: 0;
     margin: 0;
+    min-height: 100vh;
     overflow-x: hidden;
-    height: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 .music-player {
-    width: 70%; /* Center the player in the middle of the screen */
-    height: 80vh;
+    width: 85%;
     max-width: 1200px;
-    margin: 5% auto;
-    background: linear-gradient(180deg, #3E2723 0%, #1B0009 100%);
+    background: rgba(30, 20, 40, 0.85);
     border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: row;
+    padding: 2rem;
+    gap: 2rem;
+    overflow: hidden;
     position: relative;
 }
 
-/* Header section with title */
-.player-header {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.player-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: white;
-}
-
-.player-header p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
-    margin-top: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Album and song info section - centered in the player */
 .top-content {
-    width: 100%;
+    flex: 2;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    flex: 1;
+    justify-content: center;
+    text-align: center;
 }
 
 .album-art {
-    width: 300px; /* Equal width and height for square aspect ratio */
-    height: 300px;
+    width: 350px;
+    height: 350px;
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
+    border: 5px solid rgba(156, 39, 176, 0.3);
     overflow: hidden;
-    margin: 0 auto; /* Center the album art */
 }
 
 .album-art img {
@@ -80,173 +60,174 @@ body {
 }
 
 .song-info {
-    flex: 1;
-    margin-left: 2rem;
-    text-align: left;
+    margin-bottom: 1.5rem;
 }
 
 .song-info h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-size: 2.4rem;
+    font-weight: bold;
     color: white;
+    margin-bottom: 0.5rem;
 }
 
 .song-info p {
     font-size: 1.2rem;
-    margin: 0.5rem 0;
-    opacity: 0.8;
-    color: white;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-/* Progress section */
 .progress-area {
     width: 100%;
-    margin: 2rem 0;
-    padding: 0;
+    margin: 1rem 0;
 }
 
 .progress-bar {
     height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
     overflow: hidden;
+    position: relative;
 }
 
 .progress {
     height: 100%;
-    background: #FF5722;
-    border-radius: 6px;
+    background: linear-gradient(to right, #9C27B0, #4A148C);
+    border-radius: 3px;
 }
 
-/* Controls section - at the bottom */
 .bottom-controls {
-    width: 100%;
-    padding: 2rem;
+    flex: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-around; /* Evenly distribute buttons horizontally */
-    background: linear-gradient(to top, #3E2723, transparent);
+    justify-content: space-between;
 }
 
 .controls {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem; /* Add spacing between buttons */
+    gap: 1.5rem;
 }
 
 .control-btn {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .control-btn:hover {
-    background: #FF5722;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
 .play-btn {
     width: 80px;
     height: 80px;
-    background: #FF5722;
-    box-shadow: 0 0 30px rgba(255, 87, 34, 0.6);
+    background: linear-gradient(45deg, #4A148C, #9C27B0);
+    box-shadow: 0 0 20px rgba(156, 39, 176, 0.5);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-/* Playlist styling for desktop */
-.playlist-container {
+.extra-controls {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    background: rgba(62, 39, 35, 0.9);
-    border-radius: 10px;
-    padding: 2rem;
-    max-height: 50vh;
+}
+
+.playlist-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: rgba(20, 10, 30, 0.95);
+    border-left: 2px solid rgba(156, 39, 176, 0.4);
+    padding: 1.5rem;
     overflow-y: auto;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-    margin-top: 2rem;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.playlist-container.active {
+    transform: translateX(0);
+}
+
+.playlist-container h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(156, 39, 176, 0.5);
 }
 
 #playlistItems {
+    list-style: none;
     padding: 0;
     margin: 0;
-    list-style-type: none;
 }
 
 #playlistItems li {
-    padding: 1.5rem 2rem;
-    margin: 1rem 0;
+    padding: 1rem;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 1rem;
     color: white;
-    font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
 }
 
 #playlistItems li:hover {
-    background: rgba(255, 87, 34, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
 }
 
-/* Hide mobile-only elements in desktop view */
-.mobile-only {
-    display: none;
+#playlistItems li.active {
+    background: rgba(156, 39, 176, 0.3);
+    font-weight: bold;
 }
 
-.desktop-only {
-    display: block;
-}
-
-/* Visualizer waves */
-.visualization {
-    height: 60px;
-    margin: 2rem 0;
+.show-playlist-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #4A148C, #9C27B0);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.wave {
-    width: 6px;
-    height: 25px;
-    background: #FF5722;
-    border-radius: 3px;
-    animation: wave-animation 1s ease-in-out infinite;
+.show-playlist-btn:hover {
+    transform: scale(1.1);
 }
 
-/* Keyframes for wave animation */
-@keyframes wave-animation {
-    0%, 100% { height: 15px; }
-    50% { height: 30px; }
+.show-playlist-btn.open .playlist-container {
+    transform: translateX(0);
 }
 
-/* Responsive adjustments for ultra-wide screens */
-@media (min-width: 1600px) {
-    .music-player {
-        width: 60%;
-        height: 70vh;
-    }
-
-    .album-art {
-        width: 350px;
-        height: 350px;
-    }
-
-    .song-info h2 {
-        font-size: 2.5rem;
-    }
-
-    .song-info p {
-        font-size: 1.5rem;
-    }
+.copyright {
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 1rem;
 }
